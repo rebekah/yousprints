@@ -12,8 +12,8 @@ class Sprint
   field :next_steps, type: String
   
   belongs_to :user
-  embeds_many :sub_tasks
-  attr_accessible :sub_tasks
+  embeds_many :sub_contexts
+  attr_accessible :sub_contexts
   
 end
 

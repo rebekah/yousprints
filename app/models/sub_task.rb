@@ -9,5 +9,5 @@ class SubTask
   
   embeds_many :sub_tasks
   embedded_in :sub_task
-  embedded_in :user
+  embedded_in :task
 end

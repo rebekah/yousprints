@@ -13,3 +13,10 @@
 # ActiveSupport::Inflector.inflections do |inflect|
 #   inflect.acronym 'RESTful'
 # end
+
+ActiveSupport::Inflector.inflections do |inflect|
+  inflect.plural /^(focus)$/i, '\1es'
+  inflect.singular /^(focus)es/i, '\1'
+  inflect.plural /^(sub_focus)$/i, '\1es'
+  inflect.singular /^(sub_focus)es/i, '\1'
+end

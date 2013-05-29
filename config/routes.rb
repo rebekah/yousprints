@@ -1,9 +1,12 @@
 Yousprints::Application.routes.draw do
+  resources :sub_contexts
+
+
+  resources :tasks
+
   resources :sub_tasks
 
-
   resources :notes
-
 
   resources :sprints
 

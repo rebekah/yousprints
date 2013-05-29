@@ -1,0 +1,2 @@
+class SubContextsController < ApplicationController
+end
