@@ -64,5 +64,20 @@ module Yousprints
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+    
+    #suppresses the auto creation of view and helper specs
+    config.generators do |g|
+      g.view_specs false
+      g.helper_specs false
+    end
+    
+    #If you are deploying Rails 3.1+ on Heroku, you may want to set:
+
+       #config.assets.initialize_on_precompile = false
+
+    #On config/application.rb forcing your application to not access the DB or load models when precompiling your assets.
+    
+    config.assets.initialize_on_precompile = false
+    
   end
 end
