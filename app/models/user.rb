@@ -23,16 +23,27 @@ class User
   field :last_sign_in_at,    :type => Time
   field :current_sign_in_ip, :type => String
   field :last_sign_in_ip,    :type => String
+  field :note_types, type: Hash
   
   has_many :sprints
+  has_many :notes
   
-  attr_accessible :sprints
+  attr_accessible :sprints, :notes
+  
+  
+  before_create :set_default_note_types
+  
+  private
+  
+  def set_default_note_types
+    self.note_types = Note.default_types
+  end
 
   ## Confirmable
-  # field :confirmation_token,   :type => String
-  # field :confirmed_at,         :type => Time
-  # field :confirmation_sent_at, :type => Time
-  # field :unconfirmed_email,    :type => String # Only if using reconfirmable
+   field :confirmation_token,   :type => String
+   field :confirmed_at,         :type => Time
+   field :confirmation_sent_at, :type => Time
+   field :unconfirmed_email,    :type => String # Only if using reconfirmable
 
   ## Lockable
   # field :failed_attempts, :type => Integer, :default => 0 # Only if lock strategy is :failed_attempts

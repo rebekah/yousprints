@@ -13,7 +13,8 @@ class Sprint
   
   belongs_to :user
   embeds_many :sub_contexts
-  attr_accessible :sub_contexts
+  attr_accessible :sub_contexts, :notes
+  has_many :notes
   
 end
 
