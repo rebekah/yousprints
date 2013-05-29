@@ -1,4 +1,15 @@
 Yousprints::Application.routes.draw do
+  resources :sub_tasks
+
+
+  resources :notes
+
+
+  resources :sprints
+
+  devise_for :users
+  
+  root to: 'landing#index'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

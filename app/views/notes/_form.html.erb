@@ -1,0 +1,11 @@
+<style>
+  .note textarea{
+    width:90%;
+    height:150px;
+  }
+</style>
+
+<%= simple_form_for( @note, html: { class: 'note' }) do |f| %>
+  <%= f.input :note_text, as: :text, label: "Notes:" %>
+  <%= f.submit %>
+<% end %>

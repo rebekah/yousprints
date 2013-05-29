@@ -1,14 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Yousprints</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <title>You Sprints</title>
+  <%= stylesheet_link_tag "application", :media => "all" %>
+  <%= stylesheet_link_tag "nav", media: "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
+  <%= yield :head %>
 </head>
 <body>
-
-<%= yield %>
-
+<% # pid = fork{ exec 'mpg123','-q', 'nevergonnagiveyouup.mp3' } 
+%>
+<% # pid = fork{ exec 'public','-q', 'nevergonnagiveyouup.mp3' }
+%>
+<%= #puts 7.chr 
+%>
+<%= render 'layouts/nav' %>
+<div class="container">
+  <div class = 'content'>
+    <%= yield %>
+  </div>
+</div>
 </body>
 </html>

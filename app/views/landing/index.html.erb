@@ -1,0 +1,18 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag "sprints", media: "all" %>
+<% end %>
+<% if current_user %>
+<div class = 'row-fluid'>
+  <div class = 'big_button_container'>
+    <div class = "span2"></div>
+    <div class = 'span4 landing_big_button' ><%= link_to 'Start Sprint', new_sprint_path %></div>
+    <div class = 'span4 landing_big_button' ><%= link_to 'View Sprints', new_sprint_path %></div>
+    <div class = "span2" ></div>
+    <div class = 'span12'><%= render 'notes/form' %></div>
+    <!--<div class = 'span12'><%= raw(@note_text) %></div>-->
+  </div>                                                                                                                                                                        
+</div>
+
+<% else %>
+	<%= render 'devise/sessions/form' %>
+<% end %>
