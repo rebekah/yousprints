@@ -8,7 +8,7 @@ describe Note do
   
   describe "Note attributes" do
     
-    it {expect{@note.note_text}.to_not raise_error(NameError)}
+    it {expect{@note.content}.to_not raise_error(NameError)}
     it {expect{@note.updated_at}.to_not raise_error(NameError)}
     it {expect{@note.note_type}.to_not raise_error(NameError)}
     
@@ -22,9 +22,5 @@ describe Note do
     
     it { @note.user.should == @user }
   end 
-  
-  describe "default_types" do
-    it {Note.default_types.should == {sprint_brain_dump: 'Sprint Brain Dump', reminders: 'Reminders', notes: 'Notes'} }  
-  end
   
 end
