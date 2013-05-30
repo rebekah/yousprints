@@ -72,13 +72,14 @@ Spork.prefork do
     config.infer_base_class_for_anonymous_controllers = false
     config.treat_symbols_as_metadata_keys_with_true_values = true
     config.run_all_when_everything_filtered = true
-  
+
     require 'database_cleaner'
     config.before(:suite) do
       ActionMailer::Base.deliveries.clear
       Capybara.default_driver = :rack_test
-      DatabaseCleaner.strategy = :truncation
+      DatabaseCleaner.strategy = :truncation, {except: ['note_types']}
       DatabaseCleaner.orm = 'mongoid'
+      `rake db:seed:populate_note_types RAILS_ENV=test`
     end
   
     config.before(:each) do
