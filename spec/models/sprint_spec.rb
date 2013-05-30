@@ -10,6 +10,7 @@ describe Sprint do
     
     it {expect{@sprint.administration_start}.to_not raise_error(NameError)}
     it {expect{@sprint.administration_end}.to_not raise_error(NameError)}
+    #it {expect{@sprint.intention}.to_not raise_error(NameError)}
     it {expect{@sprint.optimistic}.to_not raise_error(NameError)}
     it {expect{@sprint.realistic}.to_not raise_error(NameError)}
     it {expect{@sprint.sprint_start}.to_not raise_error(NameError)}

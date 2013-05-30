@@ -4,6 +4,8 @@ class Sprint
   
   field :administration_start, type: Time
   field :administration_end, type: Time
+  field :capacity, type: Integer
+  field :duration, type: Integer
   field :optimistic, type: String
   field :realistic, type: String
   field :sprint_start, type: Time

@@ -1,3 +1,5 @@
-<% simple_form_for @sprint do |f| %>
-  
+<%= simple_form_for @sprint do |f| %>
+  <%= f.input :duration, inline_label: 'Duration' %>
+  <%= f.input :realistic, inline_label: 'Expectation' %>
+  <%= f.input :capacity, inline_label: 'Current Capacity' %>
 <% end %>
