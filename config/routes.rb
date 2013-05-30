@@ -1,4 +1,7 @@
 Yousprints::Application.routes.draw do
+  resources :sub_processes
+
+
   resources :note_types
 
 
