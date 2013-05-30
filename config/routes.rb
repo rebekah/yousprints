@@ -1,5 +1,5 @@
 Yousprints::Application.routes.draw do
-  resources :sub_contexts
+  resources :note_types
 
 
   resources :tasks

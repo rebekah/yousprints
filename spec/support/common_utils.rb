@@ -1,5 +1,10 @@
+def create_test_user
+  FactoryGirl.create(:user)
+end
+
+
 def login_test_user
-  user = User.create(email: "test_user@example.com", password: "password", password_confirmation: "password")
+  user = create_test_user
   login_as user
   user
 end
