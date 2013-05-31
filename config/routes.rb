@@ -16,6 +16,10 @@ Yousprints::Application.routes.draw do
   devise_for :users
   
   root to: 'landing#index'
+  
+  #For jasmine
+  mount JasmineRails::Engine => "/specs" if defined?(JasmineRails)
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

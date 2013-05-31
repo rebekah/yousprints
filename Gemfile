@@ -26,7 +26,6 @@ group :assets do
 end
 
 group :test do
-  gem 'jasmine'
   gem 'action_mailer_cache_delivery'
   gem 'database_cleaner'
   gem 'mongoid-rspec'
@@ -48,6 +47,7 @@ end
 
 group :development, :test do
   #gem 'debugger'
+  gem 'jasmine-rails'
   gem 'byebug'
   gem 'awesome_print'
   gem 'rspec-mocks'
