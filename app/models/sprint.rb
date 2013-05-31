@@ -13,8 +13,8 @@ class Sprint
   field :next_steps, type: String
   
   belongs_to :user
-  embeds_many :sub_contexts
-  attr_accessible :sub_contexts, :notes
+  embeds_many :sub_processes
+  attr_accessible :sub_processes, :notes, :duration, :intention
   has_many :notes
   
 end

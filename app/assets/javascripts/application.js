@@ -13,26 +13,5 @@
 //= require jquery
 //= require jquery_ujs
 //= require twitter/bootstrap
-//= require_tree .
-$(function() {
+//= require devise
 
-  if (window.location.pathname.match(/^\/$/)) {
-     moveLoginForm();
-  }
-
-})
-
-// repositions and redisplays the user log in form used on the landing page
-function moveLoginForm(){
-  $('form#new_user fieldset div').eq(4).remove();
-  $('form#new_user fieldset label').removeClass();
-  $('form#new_user fieldset input').not($('.btn')).removeClass();
-  $('form#new_user fieldset label').addClass('inline');
-  $('form#new_user fieldset input').not($('.btn')).addClass('inline landing_login_textbox');
-  $('form#new_user fieldset label').eq(0).html('username*');
-  $('form#new_user fieldset label').eq(1).html('password*');
-  keepLoginFormHTML = $('form#new_user').eq(1).html();
-  $('form#new_user').eq(1).remove();
-  newLoginFormHTML = keepLoginFormHTML.replace(/<div.*?\>/g,"").replace(/\<\/div\>/g,"");
-  $('form#new_user').prepend(newLoginFormHTML);
-}

@@ -20,13 +20,17 @@ describe "creating a new sprint" do
      should have_selector('input#sprint_duration')
     end
     
+    it "the input labeled duration should have class integer" do
+      should have_selector('input#sprint_duration.integer')
+    end
+    
     it "should have a form that contains an input labeled sprint 'Realistic Expectation'" do 
-      should have_selector('input#expectation')
+      should have_selector('textarea#sprint_intention')
     end
    
-    it "should have a form that contains an select input labeled 'Current Capability Level'" do 
-      should have_selector('input#capacity')
-    end
+    #it "should have a form that contains an select input labeled 'Current Capability Level'" do 
+      #should have_selector('input#capacity')
+    #end
     
     describe "hover event over the Current Capacity label - maybe this is a test for jasmine?" do
     
