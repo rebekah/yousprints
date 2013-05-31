@@ -1,0 +1,32 @@
+.landing_big_button{
+  /*display:block;*/
+  width: 100px;
+  height: 75px;
+  border-radius: 12px;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;  
+  background: -moz-linear-gradient(
+    top,
+    #ffffff 0%,
+    #E6F0E6 50%,
+    #66A366);
+  background: -webkit-gradient(
+    linear, left top, left bottom, 
+    from(#ffffff),
+    color-stop(0.50, #E6F0E6),
+    to(#66A366));
+    padding:25px 25px;
+    border:2px solid #eeeeee;
+}
+
+.landing_big_button a{
+  color: #777777;
+  font-size: 26px;
+  text-decoration:none;
+  display:block;
+  text-align:center;
+}
+
+.big_button_container {
+  padding: 25px 25px;
+}
