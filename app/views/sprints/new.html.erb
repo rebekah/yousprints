@@ -4,7 +4,6 @@
 <h3 style = 'text-align:center'> New Sprint </h3>
 
 <%= render 'form' %>
-
-<%= render 'notes/form' %>
-
-
+<% @notes.each do |n| %>
+  <%= render :partial => 'notes/form', :locals => {:note => n} %>
+<% end %>

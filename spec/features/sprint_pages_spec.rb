@@ -24,7 +24,7 @@ describe "creating a new sprint" do
       should have_selector('input#sprint_duration.integer')
     end
     
-    it "should have a form that contains an input labeled sprint 'Realistic Expectation'" do 
+    it "should have a form that contains a textarea for the intention" do 
       should have_selector('textarea#sprint_intention')
     end
    
@@ -47,8 +47,13 @@ describe "creating a new sprint" do
   end
   
   describe "after the sprint is initiated" do
+    before do
+      click_button 'Create Sprint'
+    end
     
-    it "should have a notes section labeled Reminders" do end
+    it "should have a notes section labeled Reminders" do 
+        #haven't decided yet best how to test for this
+    end
     
   end
   
