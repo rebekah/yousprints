@@ -17,6 +17,10 @@ class Sprint
   attr_accessible :sub_processes, :notes, :duration, :intention
   has_many :notes
   
+  def add_sub_process_from_params_hash(params)
+    
+  end
+  
 end
 
   #interuptions int

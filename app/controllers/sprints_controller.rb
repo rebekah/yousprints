@@ -4,8 +4,8 @@ class SprintsController < ApplicationController
     @sprint = Sprint.create
     @note_sprint_dump = Note.new
     @note_sprint_reminders = Note.new
-    @note_sprint_dump.note_type = NoteType.where(name: 'sprint notes')[0]
-    @note_sprint_reminders.note_type = NoteType.where(name: 'sprint reminder notes')[0]
+    @note_sprint_dump.note_type = NoteType.where(name: 'sprint_notes')[0]
+    @note_sprint_reminders.note_type = NoteType.any_of({name: /reminder/})[0]
     @notes = [@note_sprint_dump, @note_sprint_reminders]
   end
   

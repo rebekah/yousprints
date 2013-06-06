@@ -11,7 +11,7 @@ describe 'logging in' do
     it {current_path.should == new_user_session_path}
     
     it "should provide a log in form" do
-      should have_text('Sign in')
+      should have_selector('h2:contains("Sign in")')
       should have_selector('form#new_user')
     end
     

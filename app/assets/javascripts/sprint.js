@@ -1,26 +1,4 @@
-function Sprint(){};
-
-$(function(){
-
-  sprint = new Sprint ;
-  
-  $('#before_sprint').submit(function(event){
-      event.preventDefault();
-      submit_sprint_form.call(event.target,"POST",$(event.target).attr('action'));
-  })
-  
-  $('#during_sprint').submit(function(event){
-      event.preventDefault();
-      if (typeof sprint.id != 'undefined'){
-        submit_sub_process_data.call( event.target, "PUT", sprint.id ) ;
-      }
-      else {
-        console.log ('The update of sprint did not succeed because sprint.id was not yet defined') ;
-      }
-
-  })
-
-})
+//Ajax
 
 function submit_sprint_form(type,url) {
     var valuesToSubmit = $("#" + this.id + "").serialize();
@@ -51,6 +29,33 @@ function submit_sub_process_data() {
     return false; 
 
 };
+
+
+//Sprint
+
+function Sprint(){
+  this.loss_of_focus = 0 ;
+  this.interruption = 0 ;
+};
+
+Sprint.prototype.incrementLossOfFocus = function(){
+ this.loss_of_focus += 1
+}
+
+Sprint.prototype.incrementInterruption = function(){
+  this.interruption += 1
+}
+
+Sprint.prototype.change_cycle_text =  function(){
+  link_text = $(event.target).text();
+  debugger
+  //fade out the text of the a
+  //fade in count: 1
+  //fade that out
+  //and fade in regular message
+}
+
+//SubProcess
 
 function subProcesses(){
   this.sub_process_JSON = {} ;
@@ -127,4 +132,8 @@ subProcesses.prototype.createSubProcessInitializationName = function (level_valu
 
     }
     return sub_process_initialization_name ;
+}
+
+subProcesses.prototype.createNewsubProcess = function(container_div){
+
 }

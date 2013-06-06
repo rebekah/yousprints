@@ -30,7 +30,7 @@ group :test do
   gem 'database_cleaner'
   gem 'mongoid-rspec'
   gem 'email_spec'
-  gem 'capybara'
+  gem 'capybara', '~> 1.1.2'
   gem 'selenium-webdriver'
   gem 'launchy'
   gem 'simplecov', require: false

@@ -6,13 +6,21 @@
   <input class="button float_right" name="commit" type="submit" value="Create Sprint" style = 'margin-right:10px;'>
 <% end %>
 
-<%= form_tag({:controller => "sprints", :action => "update", id: "51a8fca7cbffe6731b00001b"}, id: 'during_sprint', :method => "put", :class => "big_h_margin", style: 'margin-bottom:35px;') do %>
-  <label class = "inline">Sub_process: </label><input type = "text" id = "sprint_sub_process_description" name = "sprint[sub_process][description]" class = "input"/>
-  <br/>
-  <label class = "inline">Sub_process: </label><input type = "text" id = "sprint_sub_process_sub_process" name = "sprint[sub_process][sub_process][description]" class = "input"/>
+<%= form_tag({:controller => "sprints", :action => "update", id: "51a8fca7cbffe6731b00001b"}, id: 'during_sprint', :method => "put", :class => "big_h_margin display_none", style: 'margin-bottom:35px;') do %>
+
+<div class = 'row-fluid'>
+  <div class = "span4">
+    <div class = 'sprint_med_button'><a href = "#" id = "loss_of_focus">+ Loss of Focus</a></div>
+  </div>
+  <div class = "span4">
+    <div class = 'sprint_med_button'><a href = "#" id = "inc_interruption">+ Interruption</a></div>
+  </div>
+  <div class = "span4">
+    <div class = 'sprint_med_button'><a href = "#" id = "add_process">+ Process</a></div>
+  </div>
+</div>
+
 <% end %>
 
 
-
-
-
+  

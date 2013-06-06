@@ -14,19 +14,19 @@ namespace :db do
     
     note_type_seed_data = [
       {
-         name: 'daily notes',
+         name: 'daily_notes',
          description: '',
          label: 'Daily Brain Dump',
          button_label: ''
       },
       {
-         name: 'sprint reminder notes',
+         name: 'sprint_reminder_notes',
          description: '',
-         label: 'Reminders',
+         label: 'Personal Reminders',
          button_label: ''
       },
       {
-         name: 'sprint notes',
+         name: 'sprint_notes',
          description: '',
          label: 'Sprint Brain Dump',
          button_label: ''

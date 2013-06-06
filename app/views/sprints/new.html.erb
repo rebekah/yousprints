@@ -7,3 +7,53 @@
 <% @notes.each do |n| %>
   <%= render :partial => 'notes/form', :locals => {:note => n} %>
 <% end %>
+
+<script>
+
+  $(function(){
+  
+    sprint = new Sprint ;
+    
+    $('#before_sprint').submit(function(event){
+        event.preventDefault();
+        submit_sprint_form.call(event.target,"POST",$(event.target).attr('action'));
+    })
+    
+    $('#during_sprint').submit(function(event){
+        event.preventDefault();
+        if (typeof sprint.id != 'undefined'){
+          submit_sub_process_data.call( event.target, "PUT", sprint.id ) ;
+        }
+        else {
+          console.log ('The update of sprint did not succeed because sprint.id was not yet defined') ;
+        }
+  
+    })
+    
+    $('form#sprint_reminder_notes').addClass('display_none') ;
+    
+    $('input[value="Create Sprint"]').click(function(e){
+      e.preventDefault() ;
+      $('form#before_sprint').remove() ;
+      $('h3').html('During Sprint');
+      $('form#during_sprint').removeClass('display_none') ;
+      $('form#sprint_notes').addClass('display_none') ;
+      $('form#sprint_reminder_notes').removeClass('display_none') ;
+    });
+    
+    $('a:contains("+ Loss of Focus")').click(function(){
+      sprint.incrementLossOfFocus() ;  
+      sprint.change_cycle_text() ;
+    });
+    
+    $('a:contains("+ Interuption")').click(function(){
+      sprint.incrementInterruption();      
+    });
+    
+    $('a:contains("+ Process")').click(function(){
+      subProcesses.createNewSubProcess();      
+    });
+  
+  })
+
+</script>
