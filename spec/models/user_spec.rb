@@ -16,7 +16,8 @@ describe User do
   
   describe " as related to it's notes" do
   
-    it ""
+    it "" do
+    end
     
   end
   
