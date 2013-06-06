@@ -20,7 +20,7 @@ namespace :db do
          button_label: ''
       },
       {
-         name: 'remimders',
+         name: 'sprint reminder notes',
          description: '',
          label: 'Reminders',
          button_label: ''
