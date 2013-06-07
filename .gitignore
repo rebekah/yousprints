@@ -17,3 +17,5 @@
 coverage*
 *#
 spec/tmp/*
+.rspec
+chromedriver.log
