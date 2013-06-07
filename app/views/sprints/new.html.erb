@@ -46,8 +46,9 @@
       sprint.change_cycle_text() ;
     });
     
-    $('a:contains("+ Interuption")').click(function(){
-      sprint.incrementInterruption();      
+    $('a:contains("+ Interruption")').click(function(){
+      sprint.incrementInterruption(); 
+      sprint.change_cycle_text() ;
     });
     
     $('a:contains("+ Process")').click(function(){

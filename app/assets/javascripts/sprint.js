@@ -47,12 +47,31 @@ Sprint.prototype.incrementInterruption = function(){
 }
 
 Sprint.prototype.change_cycle_text =  function(){
-  link_text = $(event.target).text();
-  debugger
-  //fade out the text of the a
-  //fade in count: 1
-  //fade that out
-  //and fade in regular message
+  var $link = $(event.target) ;
+  var link_id = $(event.target).attr('id') ;
+  var link_text = $(event.target).text() ;
+  var fade_length = 1000 ;
+  $link.addClass('disabled') ;
+  $link.fadeOut(fade_length, function(){
+    $link.text('count:' + eval('sprint.' + link_id ) );
+    fadeInFadeOutAndResetLinkText() ;
+  });
+  function fadeInFadeOutAndResetLinkText() { 
+    $link.fadeIn(fade_length, function(){
+      setTimeout( FadeOutAndResetLinkText, 1500 ) ;
+    }) ;
+  } ; 
+  function FadeOutAndResetLinkText(){
+    $link.fadeOut(fade_length,function(){
+      $link.text(link_text) ;
+      fadeInAndRenableLink() ;
+    }) ;
+  } ;
+  function fadeInAndRenableLink(){
+   $link.fadeIn(fade_length,function(){
+     $link.removeClass('disabled') ; 
+   }) ;
+  };   
 }
 
 //SubProcess
@@ -93,7 +112,6 @@ subProcesses.prototype.processSiblings = function(level_value){
 
 subProcesses.prototype.getNewSiblings = function(level_value){
   siblings = $('div.sub_process[name="sub_process' + level_value + '"]').siblings('div.sub_process') ;
-  debugger
   var new_siblings = []
   var this_level = level_value.split('').pop() ;
   for(i=0; i < siblings.length; i++){
