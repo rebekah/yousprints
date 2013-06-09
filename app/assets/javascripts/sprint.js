@@ -152,6 +152,48 @@ subProcesses.prototype.createSubProcessInitializationName = function (level_valu
     return sub_process_initialization_name ;
 }
 
-subProcesses.prototype.createNewsubProcess = function(container_div){
+//Create new Dom elements
 
-}
+subProcessElements = {
+
+  createNewSubProcess: function(container_name){
+    if(typeof container_name == 'undefined') ; 
+      var container_name = 'sub_processes' ;
+    var outer_level = subProcessElements.getOuterLevel(container_name) ;
+    var outer_level_string = (outer_level == "") ? outer_level : "_" + outer_level ;
+    var new_inner_level = subProcessElements.getNewInnerLevel(container_name) ;
+    ////html = "<div class = 'sub_process' name = 'sub_process_'" + outer_level + inner_level "''><input name = 'description'/><input name = 'start'/><input name = 'end'/><a>I'm starting</a>I'm done<a>end</a>New Sub Process<a></a></div>" 
+  },
+  
+  getNewInnerLevel: function(container_name){
+    var siblings = $('div[name="' + container_name + '"] > div.sub_process') ;
+    if (siblings.length > 0) {
+      var names = siblings.map(subProcessElements.getName) ;
+      var levels = names.map(subProcessElements.getInnerLevels)
+      sorted_levels = levels.sort() ;
+      new_inner_level = $.makeArray(sorted_levels).pop() + 1 ;
+      new_inner_level = new_inner_level + "" ;
+      return new_inner_level ;
+    }
+    else
+      return '0' ;
+  },
+  
+  getOuterLevel: function(container_name){
+    var outer_level = container_name.split('_').slice(2).join("_");  
+    return outer_level;
+  },
+  
+  //map called on a jQuery object invokes the jQuery .map method which provides params in a different order than the javasc
+  getName: function(index, value){
+    return $(value).attr('name') ;  
+  },
+  
+  getInnerLevels: function(index, value){
+    var last_level = value.split('').pop() ;
+    last_level = +last_level ;
+    return last_level ;
+  }
+
+
+};

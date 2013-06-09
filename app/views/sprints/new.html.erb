@@ -8,6 +8,8 @@
   <%= render :partial => 'notes/form', :locals => {:note => n} %>
 <% end %>
 
+<div name="sub_processes" ></div>
+
 <script>
 
   $(function(){
@@ -51,8 +53,9 @@
       sprint.change_cycle_text() ;
     });
     
-    $('a:contains("+ Process")').click(function(){
-      subProcesses.createNewSubProcess();      
+    $('a:contains("+ Process")').click(function(e){
+      e.preventDefault() ;
+      subProcessElements.createNewSubProcess();      
     });
   
   })

@@ -51,7 +51,7 @@ describe "creating a new sprint" do
       #should have_selector('a', text: '+ Process')
     end
     
-    it "should not display the before sprint form", :js, :focus do
+    it "should not display the before sprint form", :js do
       should_not have_selector('form#before_sprint')
     end
     
@@ -59,35 +59,39 @@ describe "creating a new sprint" do
       #should have_selector('div#sub_process_container')
     end
     
-    it "will have a visible note section for reminders", :js, :focus do
+    it "will have a visible note section for reminders", :js do
       should_not have_selector('form#sprint_reminder_notes.display_none')
       should have_selector('form#sprint_reminder_notes')
     end
     
-    it "will not have a visible note section for sprint brain dumps", :js, :focus do
+    it "will not have a visible note section for sprint brain dumps", :js do
        should have_selector('form#sprint_notes.display_none')
     end
     
   end
   
-  describe "after clicking the '+ process' button the first time" do
-    
-    it "will make avaliable a description input box for the sub_process" do
-      
+  describe "after clicking the '+ Process' button the first time" do
+    before do 
+      #fire_event('add_process','click')
+      page.execute_script("$('#add_process').trigger('click')")
     end
     
-    it "the subprocess input area will contain a start button" do
+    it "will make avaliable a description input box for the sub_process", :js, :focus do
+      should have_selector('div#sub_processes_container div#sub_process')
+    end
+    
+    it "the subprocess input area will contain a start button", :js do
       #by checking for the input siblings
     end
     
-    it "the subprocess input area will contain a pause button"
+    it "the subprocess input area will contain a pause button", :js do end
     
-    it "the subprocess input area will contain a end button" do end
+    it "the subprocess input area will contain a end button", :js do end
     
-    it "the subprocess input area will contain a new sub_process button labeled '+ sub_processes'" do end
+    it "the subprocess input area will contain a new sub_process button labeled '+ sub_processes'", :js do end
     
-    describe "when I click the '+ sub_process' button" do
-      it "will make a new sub_process set of elements within the containing sub_process div" do
+    describe "when I click the '+ sub_process' button", :js do
+      it "will make a new sub_process set of elements within the containing sub_process div", :js do
         
       end
       

@@ -16,7 +16,6 @@ gem 'simple_form'
 gem 'tabulous'
 gem 'mini_magick'
 gem 'ipaddress'
-gem 'bunny'
 gem 'rest-client'
 
 group :assets do
@@ -30,7 +29,7 @@ group :test do
   gem 'database_cleaner'
   gem 'mongoid-rspec'
   gem 'email_spec'
-  gem 'capybara', '~> 1.1.2'
+  gem 'capybara'
   gem 'selenium-webdriver'
   gem 'launchy'
   gem 'simplecov', require: false
