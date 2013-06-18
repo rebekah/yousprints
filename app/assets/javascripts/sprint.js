@@ -162,7 +162,9 @@ subProcessElements = {
     var outer_level = subProcessElements.getOuterLevel(container_name) ;
     var outer_level_string = (outer_level == "") ? outer_level : "_" + outer_level ;
     var new_inner_level = subProcessElements.getNewInnerLevel(container_name) ;
-    ////html = "<div class = 'sub_process' name = 'sub_process_'" + outer_level + inner_level "''><input name = 'description'/><input name = 'start'/><input name = 'end'/><a>I'm starting</a>I'm done<a>end</a>New Sub Process<a></a></div>" 
+    new_sub_process_html = "<div class = 'sub_process' name = 'sub_process_" + outer_level_string + new_inner_level + "'><label style = 'display:inline;' >Description: </label><input name = 'description'/><a>Begin</a><a>Pause</a><a>End</a><a>+Sub Process</a></div>" 
+    $('div[name="'+ container_name +'"]').append(new_sub_process_html)
+    return $('div[name = "sub_process_' + outer_level_string + new_inner_level + '"]')
   },
   
   getNewInnerLevel: function(container_name){
@@ -193,6 +195,20 @@ subProcessElements = {
     var last_level = value.split('').pop() ;
     last_level = +last_level ;
     return last_level ;
+  },
+  
+  createBindings: function(container_div){
+    container_div.children('a:contains("Begin")').click(function(e){
+      var link = e.target ;
+      e.preventDefault() ;
+      $(link).addClass('disabled')
+      var $parent = $(link).parent('div[name^="sub_process"]') ;
+      var now = new Date ;
+      $parent.data('start_time', now) ;
+      var time_string = commonUtils.getTime(now) ;
+      $(link).text('From ' + time_string).css('text-decoration', 'none');     
+    })
+  
   }
 
 

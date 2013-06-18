@@ -19,3 +19,4 @@ coverage*
 spec/tmp/*
 .rspec
 chromedriver.log
+spec/javascripts/fixtures/spec_template.js

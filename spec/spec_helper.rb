@@ -62,8 +62,8 @@ Spork.prefork do
     config.include(EmailSpec::Helpers)
     config.include(EmailSpec::Matchers)
     
-    Capybara.register_driver :selenium_chrome do |app|
-      Capybara::Selenium::Driver.new(app, browser: :chrome)
+    Capybara.register_driver :selenium_firefox do |app|
+      Capybara::Selenium::Driver.new(app)
     end
   
     # If true, the base class of anonymous controllers will be inferred
@@ -85,7 +85,7 @@ Spork.prefork do
     config.before(:each) do
       DatabaseCleaner.start
       if example.metadata[:js]        
-        Capybara.current_driver = :selenium_chrome
+        Capybara.current_driver = :selenium_firefox
       elsif example.metadata[:rack]
         Capybara.current_driver = rack_test
       end

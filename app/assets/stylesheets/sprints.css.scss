@@ -33,10 +33,32 @@ div.sprint_med_button a{
 }
 
 .med_button_container {
-  border:1px solid green;
+  border:0px solid green;
   display:block;
 }
 
 .big_h_margin {
   margin: 0px 250px;
 }
+
+div[name='sub_processes'] {
+  display:block;
+  border:0px solid pink;
+  margin-bottom:50px;
+
+}
+div.sub_process {
+  width:800px;
+  margin-top: 10px;
+  margin-left:auto;
+  margin-right:auto; 
+  border:0px solid green;
+}
+div.sub_process a {
+text-decoration:underline;
+margin-left:10px;
+}
+div.sub_process input {
+width:400px;
+}
+

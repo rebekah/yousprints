@@ -4,11 +4,12 @@
 <h3 style = 'text-align:center'> New Sprint </h3>
 
 <%= render 'form' %>
+
+<div name="sub_processes"></div>
+
 <% @notes.each do |n| %>
   <%= render :partial => 'notes/form', :locals => {:note => n} %>
 <% end %>
-
-<div name="sub_processes" ></div>
 
 <script>
 
@@ -55,7 +56,8 @@
     
     $('a:contains("+ Process")').click(function(e){
       e.preventDefault() ;
-      subProcessElements.createNewSubProcess();      
+      var container_div = subProcessElements.createNewSubProcess();
+      subProcessElements.createBindings(container_div);
     });
   
   })
