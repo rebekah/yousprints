@@ -1,1 +1,5 @@
+== YouSprints
+
+{<img src="https://travis-ci.org/rebekah/yousprints.png?branch=master" alt="Build Status" />}[https://travis-ci.org/rebekah/yousprints]
+
 An app to monitor and enhance ones productivity and effectiveness
