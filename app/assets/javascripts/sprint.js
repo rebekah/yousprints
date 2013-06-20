@@ -157,12 +157,15 @@ subProcesses.prototype.createSubProcessInitializationName = function (level_valu
 subProcessElements = {
 
   createNewSubProcess: function(container_name){
-    if(typeof container_name == 'undefined') ; 
+    if(typeof container_name == 'undefined')
       var container_name = 'sub_processes' ;
     var outer_level = subProcessElements.getOuterLevel(container_name) ;
-    var outer_level_string = (outer_level == "") ? outer_level : "_" + outer_level ;
+    var outer_level_length = outer_level.split('_').length ;
+    var tab_class = outer_level_length > 0 ? 'tab' : '' ;
+    var margin_class = outer_level == "" ? 'sub_process_bottom_margin' : '' ;
+    var outer_level_string = (outer_level == "") ? outer_level : outer_level + '_';
     var new_inner_level = subProcessElements.getNewInnerLevel(container_name) ;
-    new_sub_process_html = "<div class = 'sub_process' name = 'sub_process_" + outer_level_string + new_inner_level + "'><label style = 'display:inline;' >Description: </label><input name = 'description'/><a>Begin</a><a>Pause</a><a>End</a><a>+Sub Process</a></div>" 
+    new_sub_process_html = "<div class = 'sub_process " + tab_class + " " + margin_class +"' name = 'sub_process_" + outer_level_string + new_inner_level + "'><label style = 'display:inline;' >Description: </label><input name = 'description'/><a>Begin</a><a>Pause</a><a>End</a><a>+Sub Process</a></div>" 
     $('div[name="'+ container_name +'"]').append(new_sub_process_html)
     return $('div[name = "sub_process_' + outer_level_string + new_inner_level + '"]')
   },
@@ -182,7 +185,7 @@ subProcessElements = {
   },
   
   getOuterLevel: function(container_name){
-    var outer_level = container_name.split('_').slice(2).join("_");  
+    var outer_level = container_name.split('_').slice(2).join("_"); 
     return outer_level;
   },
   
@@ -197,19 +200,27 @@ subProcessElements = {
     return last_level ;
   },
   
-  createBindings: function(container_div){
+  createBindings: function(container_div){ 
+  
     container_div.children('a:contains("Begin")').click(function(e){
-      var link = e.target ;
+      var link = e.target ; 
       e.preventDefault() ;
       $(link).addClass('disabled')
       var $parent = $(link).parent('div[name^="sub_process"]') ;
       var now = new Date ;
       $parent.data('start_time', now) ;
       var time_string = commonUtils.getTime(now) ;
-      $(link).text('From ' + time_string).css('text-decoration', 'none');     
+      $(link).text('From ' + time_string).css('text-decoration', 'none');  
+    })
+    
+    container_div.children('a:contains("+Sub Process")').click(function(e){
+      e.preventDefault() ;
+      var link = e.target ;
+      var container_name = $(e.target).parent('div').attr('name');
+      var container_div = subProcessElements.createNewSubProcess(container_name);   
+      subProcessElements.createBindings(container_div);
     })
   
   }
-
 
 };

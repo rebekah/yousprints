@@ -49,7 +49,7 @@ describe('common utility functions', function(){
         date_object.setHours(13);
         date_object.setMinutes(45) ;
         var time_string = commonUtils.getTime(date_object);
-        expect(time_string).toEqual('1:45');
+        expect(time_string).toEqual('1:45pm');
       })
       
       it('should return a two digit minute when the minute is actually a one digit number', function(){
@@ -57,20 +57,20 @@ describe('common utility functions', function(){
         date_object.setHours(2);
         date_object.setMinutes(1) ;
         var time_string = commonUtils.getTime(date_object);
-        expect(time_string).toEqual('2:01'); 
+        expect(time_string).toEqual('2:01am'); 
       })
     })
     
     describe('commonUtils.americanizedHour', function(){
     
-      it('should return the americanized hour integer for 13:00', function(){
-        var hour = commonUtils.americanizedHour(13);
-        expect(hour).toEqual(1) ;
+      it('should return the americanized hour integer and ToD for 13:00', function(){
+        var returned_value = commonUtils.americanizedHour(13);
+        expect(returned_value).toEqual({'hour':1, 'ToD': 'pm'}) ;
       })
       
-      it('should return the americanized hour integer for 1:00', function(){
-        var hour = commonUtils.americanizedHour(1);
-        expect(hour).toEqual(1) ;
+      it('should return the americanized hour integer and ToD for 1:00', function(){
+        var returned_value = commonUtils.americanizedHour(1);
+        expect(returned_value).toEqual({'hour':1, 'ToD': 'am'}) ;
       })
       
       it('should give the proper error message if an integer lower than 0 in as the param', function(){

@@ -75,25 +75,8 @@ describe "creating a new sprint" do
       page.execute_script("$('#add_process').trigger('click')")
     end
     
-    it "will make avaliable a description input box for the sub_process", :js do
-      should have_selector('div[name = "sub_processes"] div.sub_process')
-    end
-    
     it "will create a div with name 'sub_process_0'", :js do
       should have_selector('div[name = "sub_process_0"]')
-    end
-    
-    describe "after clicking the '+ Process' button a second time" do
-    
-      before do 
-        page.execute_script("$('#add_process').trigger('click')")
-      end
-      
-      it 'should create a second sub_process div', :js  do
-        should have_selector('div[name = "sub_process_0"]')
-        should have_selector('div[name = "sub_process_1"]')
-      end
-      
     end
     
     it "the subprocess input area will contain a 'Begin' link", :js do 
@@ -120,6 +103,19 @@ describe "creating a new sprint" do
       should have_selector('div.sub_process label', text: 'Description:')
     end
     
+    describe "after clicking the '+ Process' button a second time" do
+    
+      before do 
+        page.execute_script("$('#add_process').trigger('click')")
+      end
+      
+      it 'should create a second sub_process div', :js  do
+        should have_selector('div[name = "sub_process_0"]')
+        should have_selector('div[name = "sub_process_1"]')
+      end
+      
+    end
+    
     describe "when I click the <I'm starting> link" do
      
       before do 
@@ -128,6 +124,42 @@ describe "creating a new sprint" do
       
       it "will update the text of the link with 'From <time>', disable the link, and remove the underline", :js do
         should have_selector('div[name="sub_process_0"] a.disabled:contains("From ")[style="text-decoration: none;"]')
+      end
+    
+    end
+    
+    describe "when I click the '+ Sub Process' link" do
+    
+      before do 
+        page.execute_script("$('div[name=\"sub_process_0\"] a:contains(\"+Sub Process\")').trigger('click')")
+      end
+    
+      it "will create a div with name 'sub_process_0'", :js do
+        should have_selector('div[name = "sub_process_0_0"]')
+      end
+      
+      it "the subprocess input area will contain a 'Begin' link", :js do 
+        should have_selector('div[name = "sub_process_0_0"] a', text: "Begin")
+      end
+      
+      it "the subprocess area will contain an 'End' link", :js do 
+        should have_selector('div[name = "sub_process_0_0"] a', text: "End")
+      end
+      
+      it "the subprocess area will contain a pause link", :js do 
+        should have_selector('div[name = "sub_process_0_0"] a', text: "Pause")
+      end
+      
+      it "the subprocess area will contain a new sub_process button labeled '+ Sub Process'", :js do 
+        should have_selector('div[name = "sub_process_0_0"] a', text: "+Sub Process")
+      end
+      
+      it "the subprocess will contain a text input box'", :js do 
+        should have_selector('div[name = "sub_process_0_0"] input[name="description"]')
+      end
+      
+      it "the subprocess area will contain alabel for the text box with the text 'Description:'", :js do 
+        should have_selector('div[name = "sub_process_0_0"] label', text: 'Description:')
       end
     
     end

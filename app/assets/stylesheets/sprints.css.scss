@@ -44,9 +44,8 @@ div.sprint_med_button a{
 div[name='sub_processes'] {
   display:block;
   border:0px solid pink;
-  margin-bottom:50px;
-
 }
+
 div.sub_process {
   width:800px;
   margin-top: 10px;
@@ -54,6 +53,12 @@ div.sub_process {
   margin-right:auto; 
   border:0px solid green;
 }
+
+.sub_process_bottom_margin { 
+  margin-bottom: 25px; 
+}
+
+  
 div.sub_process a {
 text-decoration:underline;
 margin-left:10px;
@@ -62,3 +67,6 @@ div.sub_process input {
 width:400px;
 }
 
+div.sub_process.tab {
+  position:relative;left:25px;
+}
