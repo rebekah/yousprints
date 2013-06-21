@@ -114,6 +114,48 @@ describe('common utility functions', function(){
     
   });
   
+  describe('switchText', function(){
   
+    beforeEach(function(){
+      $('body').append('<div id = "fixture_container"></div>') ;
+      $('div#fixture_container').html("<a>Pause</a>") ;
+    });
+    
+    afterEach(function(){
+      $('div#fixture_container').remove();
+    });
+    
+    it ('should change the link text to Resume', function(){
+      var link = $("a:contains('Pause')") ;
+      commonUtils.switchText(link,"Resume") ;
+      resume_link_length = $("a:contains('Resume')").length ;
+      expect(resume_link_length).toEqual(1);
+    })
+    
+  })
+  
+  describe('commonUtils.timeDifferenceInMinutes', function(){
+  
+    it('should return the correct difference in minutes when there is only a difference in minutes', function(){
+      var date1 = new Date ;
+      date1.setMinutes(40) ;
+      var date2 = new Date ;
+      date2.setMinutes(51) ;
+      var time_difference_in_minutes = commonUtils.differenceInMinutes(date1,date2) ;
+      expect(time_difference_in_minutes).toEqual(11) ;
+    })
+    
+    it('should return the correct difference in minutes when there is only a difference in hours', function(){
+      var date1 = new Date ;
+      date1.setMinutes(40) ;
+      date1.setHours(1) ;
+      var date2 = new Date ;
+      date2.setMinutes(51) ;
+      date2.setHours(2) ; 
+      var time_difference_in_minutes = commonUtils.differenceInMinutes(date1,date2) ;
+      expect(time_difference_in_minutes).toEqual(71) ;
+    })
+  
+  })
   
 }) ;

@@ -91,8 +91,12 @@ describe "creating a new sprint" do
       should have_selector('div.sub_process a', text: "Pause")
     end
     
+    it ('and the "Pause" link will be disabled'), :js, :focus do
+      should have_selector('div.sub_process a[name="Pause"].disabled')
+    end
+    
     it "the subprocess area will contain a new sub_process button labeled '+ Sub Process'", :js do 
-      should have_selector('div.sub_process a', text: "+Sub Process")
+      should have_selector('div.sub_process a', text: "+ Sub Process")
     end
     
     it "the subprocess will contain a text input box'", :js do 
@@ -116,14 +120,18 @@ describe "creating a new sprint" do
       
     end
     
-    describe "when I click the <I'm starting> link" do
+    describe "when I click the 'Begin' link" do
      
       before do 
         page.execute_script("$('div[name=\"sub_process_0\"] a:contains(\"Begin\")').trigger('click')")
       end
       
-      it "will update the text of the link with 'From <time>', disable the link, and remove the underline", :js do
-        should have_selector('div[name="sub_process_0"] a.disabled:contains("From ")[style="text-decoration: none;"]')
+      it "will update the text of the link with time, disable the link, and remove the underline", :js do
+        should have_selector('div[name="sub_process_0"] a.disabled[style="text-decoration: none;"]', text: ":")
+      end
+      
+      it "will enable the 'Pause' link", :js, :focus do
+        should_not have_selector('div[name="sub_process_0"] a[name="Pause"].disabled')
       end
     
     end
@@ -131,7 +139,7 @@ describe "creating a new sprint" do
     describe "when I click the '+ Sub Process' link" do
     
       before do 
-        page.execute_script("$('div[name=\"sub_process_0\"] a:contains(\"+Sub Process\")').trigger('click')")
+        page.execute_script("$('div[name=\"sub_process_0\"] a:contains(\"+ Sub Process\")').trigger('click')")
       end
     
       it "will create a div with name 'sub_process_0'", :js do
@@ -151,7 +159,7 @@ describe "creating a new sprint" do
       end
       
       it "the subprocess area will contain a new sub_process button labeled '+ Sub Process'", :js do 
-        should have_selector('div[name = "sub_process_0_0"] a', text: "+Sub Process")
+        should have_selector('div[name = "sub_process_0_0"] a', text: "+ Sub Process")
       end
       
       it "the subprocess will contain a text input box'", :js do 
@@ -162,6 +170,34 @@ describe "creating a new sprint" do
         should have_selector('div[name = "sub_process_0_0"] label', text: 'Description:')
       end
     
+    end
+    
+    describe "when I click the 'Pause' link" do
+    
+      before do 
+        page.execute_script("$('div[name=\"sub_process_0\"] a:contains(\"Pause\")').trigger('click')")
+      end
+      
+      it 'the link text will become "Resume"', :js do
+        should have_selector('div[name="sub_process_0"] a:contains("Resume")')
+        should_not have_selector('div[name="sub_process_0"] a:contains("Pause")')
+      end
+      
+      describe "and after the link has the text 'Resume'" do
+          describe "when I click the 'Resume' link" do
+    
+            before do 
+              page.execute_script("$('div[name=\"sub_process_0\"] a:contains(\"Resume\")').trigger('click')")
+            end
+            
+            it 'the link text will become switch back to "Resume"', :js  do
+              should_not have_selector('div[name="sub_process_0"] a:contains("Resume")')
+              should have_selector('div[name="sub_process_0"] a:contains("Pause")')      
+            end
+            
+        end
+      end
+      
     end
     
   end

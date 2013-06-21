@@ -165,7 +165,7 @@ subProcessElements = {
     var margin_class = outer_level == "" ? 'sub_process_bottom_margin' : '' ;
     var outer_level_string = (outer_level == "") ? outer_level : outer_level + '_';
     var new_inner_level = subProcessElements.getNewInnerLevel(container_name) ;
-    new_sub_process_html = "<div class = 'sub_process " + tab_class + " " + margin_class +"' name = 'sub_process_" + outer_level_string + new_inner_level + "'><label style = 'display:inline;' >Description: </label><input name = 'description'/><a>Begin</a><a>Pause</a><a>End</a><a>+Sub Process</a></div>" 
+    new_sub_process_html = "<div class = 'sub_process " + tab_class + " " + margin_class +"' name = 'sub_process_" + outer_level_string + new_inner_level + "'><label style = 'display:inline;' >Description: </label><input name = 'description'/><a name = 'Begin'>Begin</a><a name = 'Pause' class = 'disabled'>Pause</a><a name = 'End'>End</a><a name = '+Sub Process'>+ Sub Process</a></div>" 
     $('div[name="'+ container_name +'"]').append(new_sub_process_html)
     return $('div[name = "sub_process_' + outer_level_string + new_inner_level + '"]')
   },
@@ -203,24 +203,67 @@ subProcessElements = {
   createBindings: function(container_div){ 
   
     container_div.children('a:contains("Begin")').click(function(e){
-      var link = e.target ; 
+      var $link = $(e.target) ; 
       e.preventDefault() ;
-      $(link).addClass('disabled')
-      var $parent = $(link).parent('div[name^="sub_process"]') ;
+      $link.addClass('disabled')
+      $link.siblings('a[name="Pause"]').removeClass("disabled") ;
+      var $parent = $link.parent('div[name^="sub_process"]') ;
       var now = new Date ;
       $parent.data('start_time', now) ;
       var time_string = commonUtils.getTime(now) ;
-      $(link).text('From ' + time_string).css('text-decoration', 'none');  
+      $link.text(time_string).css('text-decoration', 'none');  
     })
     
-    container_div.children('a:contains("+Sub Process")').click(function(e){
+    container_div.children('a:contains("+ Sub Process")').click(function(e){
       e.preventDefault() ;
       var link = e.target ;
       var container_name = $(e.target).parent('div').attr('name');
       var container_div = subProcessElements.createNewSubProcess(container_name);   
       subProcessElements.createBindings(container_div);
     })
+    
+    container_div.children('a:contains("Pause")').click(function(e){
+      e.preventDefault() ;
+      var $link = $(e.target) ;
+      var fade_length = 500 ;
+      var $container_div = $link.parent('div') ;
+      if ($link.text() == 'Pause'){
+        var new_text = 'Resume' ;
+        subProcessElements.bindingFunctions.startPause($container_div);
+      }
+      else {
+        var new_text = 'Pause' ;
+        subProcessElements.bindingFunctions.endPause($container_div);
+      }
+      var container_name = $(e.target).parent('div').attr('name');
+      commonUtils.switchText($link, new_text) ;
+    })
+    
+  },
+  
+  bindingFunctions: {
+  
+    startPause: function($container_div){
+      var now = new Date ;
+      $container_div.data('pause_start_time', now) ;
+    },
+    
+    endPause: function($container_div){
+      var now = new Date() ;
+      if ( $container_div.data('pause_start_time') != undefined ){
+        pause_start_time = $container_div.data('pause_start_time') ;
+        total_minutes = commonUtils.differenceInMinutes(pause_start_time, now) ;
+        if ( $container_div.data('pause_duration') != undefined ){
+          new_time = $container_div.data('pause_duration') + total_minutes ;
+          $container_div.data('pause_duration', new_time) ;
+        }
+        else {
+          $container_div.data('pause_duration', total_minutes) ;
+        }
+        
+      }
+    }
   
   }
-
-};
+  
+};                   

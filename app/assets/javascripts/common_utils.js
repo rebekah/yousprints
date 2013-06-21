@@ -42,5 +42,28 @@ commonUtils = {
     return_value =  'The americanizeHour function requires an integer as the parameter.' ;
     }
    return return_value ;
-  }
+  },
+  
+  differenceInMinutes: function(older_date,more_recent_date){  
+    var diff = more_recent_date-older_date
+    difference_in_minutes = Math.round(diff / 60000) ;
+    return difference_in_minutes ;
+  },
+  
+  switchText: function($jquery_element, new_text) {
+    $jquery_element.text(new_text) ;
+  },
+  
+  realTypeOf: function(v) {
+    if (typeof(v) == "object") {
+      if (v === null) return "null";
+      if (v.constructor == (new Array).constructor) return "array";
+      if (v.constructor == (new Date).constructor) return "date";
+      if (v.constructor == (new RegExp).constructor) return "regex";
+      return "object";
+    }
+    return typeof(v);
+  },
+  
+  
 }

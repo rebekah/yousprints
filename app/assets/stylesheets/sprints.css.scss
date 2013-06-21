@@ -60,13 +60,34 @@ div.sub_process {
 
   
 div.sub_process a {
-text-decoration:underline;
-margin-left:10px;
+  display:inline-block;
+  margin-left:10px;
+  border: 0px solid blue;
+  text-align: center;
+  text-decoration:underline;
 }
+
+div.sub_process a[name='Begin']{
+  width: 50px;
+}
+
+div.sub_process a[name='Pause']{
+  width: 55px;
+}
+
 div.sub_process input {
-width:400px;
+  width:400px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border:solid 1px #cccccc;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  
 }
 
 div.sub_process.tab {
   position:relative;left:25px;
 }
+
+
