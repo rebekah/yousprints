@@ -83,8 +83,8 @@ describe "creating a new sprint" do
       should have_selector('div.sub_process a', text: "Begin")
     end
     
-    it "the subprocess area will contain an 'End' link", :js do 
-      should have_selector('div.sub_process a', text: "End")
+    it "the subprocess area will contain a disabled 'End' link", :js do 
+      should have_selector('div.sub_process a.disabled', text: "End")
     end
     
     it "the subprocess area will contain a pause link", :js do 
@@ -105,6 +105,10 @@ describe "creating a new sprint" do
     
     it "the subprocess area will contain alabel for the text box with the text 'Description:'", :js do 
       should have_selector('div.sub_process label', text: 'Description:')
+    end
+    
+    it 'should not have a pop_over section', :js do
+      should_not have_selector('.popover')
     end
     
     describe "after clicking the '+ Process' button a second time" do
@@ -130,8 +134,55 @@ describe "creating a new sprint" do
         should have_selector('div[name="sub_process_0"] a.disabled[style="text-decoration: none;"]', text: ":")
       end
       
-      it "will enable the 'Pause' link", :js, :focus do
+      it "will enable the 'Pause' link", :js do
         should_not have_selector('div[name="sub_process_0"] a[name="Pause"].disabled')
+      end
+      
+      it "will enable the 'End' link", :js do
+        should_not have_selector('div[name="sub_process_0"] a[name="End"].disabled')
+      end
+      
+      describe "and then I click the 'End' link" do
+    
+        before do 
+          page.execute_script("$('div[name=\"sub_process_0\"] a:contains(\"End\")').trigger('click')")
+        end
+      
+        it 'should not have a pop_over section', :js, :focus do
+          should have_selector('.popover')
+        end
+        
+        describe "and then I click the 'No' link" do
+    
+          before do 
+            page.execute_script("$('div[name=\"sub_process_0\"] div.popover div div a:contains(\"No\")').trigger('click')")
+          end 
+          
+          it 'should remove the pop_pover section', :js do
+            should_not have_selector('.popover') 
+          end
+          
+        end
+        
+        describe "and then I click the 'Yes' link" do
+    
+          before do 
+            page.execute_script("$('div[name=\"sub_process_0\"] div.popover div div a:contains(\"Yes\")').trigger('click')")
+          end 
+          
+          it 'should remove the visisibility of the links of the sub_process', :js, :focus do
+            should have_selector('div[name="sub_process_0"] div.display_none a[name="Begin"]')
+            should have_selector('div[name="sub_process_0"] div.display_none a:contains("Pause")')
+            should have_selector('div[name="sub_process_0"] div.display_none a:contains("End")')
+            should have_selector('div[name="sub_process_0"] div.display_none a:contains("+ Sub Process")')
+          end
+          
+          it 'should display the sub_process total duration text', :js, :focus do
+            should have_selector('div[name="sub_process_0"] div[name="end_message_container"] span:contains("Total Duration: ")')  
+          end
+          
+        end
+        
       end
     
     end

@@ -3,7 +3,8 @@ var sub_process_fixture_double = "<div name='sub_processes' ><div class = 'sub_p
 var sub_process_html = "<div class = 'sub_process' name = 'sub_process_0'><label style = 'display:inline;' >Description: </label><input name = 'description'/><a name = 'Begin'>Begin</a><a name = 'Pause'>Pause</a><a name = 'End'>End</a><a name = '+Sub Process'>+ Sub Process</a></div>" 
 
 var sub_process_html_resume = "<div class = 'sub_process' name = 'sub_process_0'><label style = 'display:inline;' >Description: </label><input name = 'description'/><a name = 'Begin'>Begin</a><a name = 'Pause'>Resume</a><a name = 'End'>End</a><a name = '+Sub Process'>+ Sub Process</a></div>" 
-    
+ 
+
 describe("acquiring the outer level value for our new sub_process div", function(){
   //It appears I cannot test functions within functions - may need to structure my objects differently
   
@@ -177,6 +178,40 @@ describe('subProcessElements.bindingFunctions.endPause', function(){
 
 })
 
+
+describe('subProcessElements.subProcessDuration', function(){
+
+  beforeEach(function(){
+    $('body').append('<div id = "fixture_container"></div>') ;
+    $('div#fixture_container').html(sub_process_html) ;
+  });
+  
+  afterEach(function(){
+    $('div#fixture_container').remove();
+  });
+  
+  it('should return the correct time when there is a pause duration', function(){
+    var earlier = new Date ;
+    var start_minute = earlier.getMinutes() - 30 ; 
+    earlier.setMinutes(start_minute) ;
+    $('div[name="sub_process_0"]').data('start_time', earlier) ;
+    var $container_div = $('div[name="sub_process_0"]') ;
+    var total_sub_process_time = subProcessElements.subProcessDuration($container_div) ;
+    expect(total_sub_process_time).toEqual(30) ;  
+  })
+  
+  it('should return the correct time when there is not a pause duration', function(){
+    var earlier = new Date ;
+    var start_minute = earlier.getMinutes() - 30 ; 
+    earlier.setMinutes(start_minute) ;
+    $('div[name="sub_process_0"]').data('start_time', earlier) ;
+    $('div[name="sub_process_0"]').data('pause_duration', 10) ;
+    var $container_div = $('div[name="sub_process_0"]') ;
+    var total_sub_process_time = subProcessElements.subProcessDuration($container_div) ;
+    expect(total_sub_process_time).toEqual(20) ;    
+  })
+
+})
 
   
 

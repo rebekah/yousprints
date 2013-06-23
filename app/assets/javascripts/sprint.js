@@ -165,9 +165,17 @@ subProcessElements = {
     var margin_class = outer_level == "" ? 'sub_process_bottom_margin' : '' ;
     var outer_level_string = (outer_level == "") ? outer_level : outer_level + '_';
     var new_inner_level = subProcessElements.getNewInnerLevel(container_name) ;
-    new_sub_process_html = "<div class = 'sub_process " + tab_class + " " + margin_class +"' name = 'sub_process_" + outer_level_string + new_inner_level + "'><label style = 'display:inline;' >Description: </label><input name = 'description'/><a name = 'Begin'>Begin</a><a name = 'Pause' class = 'disabled'>Pause</a><a name = 'End'>End</a><a name = '+Sub Process'>+ Sub Process</a></div>" 
-    $('div[name="'+ container_name +'"]').append(new_sub_process_html)
-    return $('div[name = "sub_process_' + outer_level_string + new_inner_level + '"]')
+    var new_div_level = outer_level_string + new_inner_level ;
+    var new_sub_process_div_name = 'sub_process_' + new_div_level ;
+    var new_sub_process_html = "<div class = 'sub_process " + tab_class + " " + margin_class +"' name = '" + new_sub_process_div_name + "'><label style = 'display:inline;' >Description: </label><input name = 'description'/><div name = 'end_message_container' class = 'inline'></div><a name = 'Begin'>Begin</a><a name = 'Pause' class = 'disabled'>Pause</a><a name = 'End' class = 'disabled'>End</a><a name = '+Sub Process'>+ Sub Process</a></div>" 
+    $('div[name="'+ container_name +'"]').append(new_sub_process_html) ;
+    return $('div[name = "sub_process_' + outer_level_string + new_inner_level + '"]') ;
+  },
+  
+  createPopover: function(div_name, div_level){
+    sub_process_end  = new popOver('sub_process_' + div_level + '_end_popover','SPE', div_name,'<div>Are you sure?</div><div><a style="margin:0px 5px 0px 10px">Yes</a><a style="margin:0px 10px 0px 5px">No</a></div>');
+    sub_process_end.initiate();
+    sub_process_end.setEventHandlers(['shown','hide']);      
   },
   
   getNewInnerLevel: function(container_name){
@@ -189,6 +197,10 @@ subProcessElements = {
     return outer_level;
   },
   
+  getDivLevel: function(container_name){
+    return subProcessElements.getOuterLevel(container_name) ;
+  },
+  
   //map called on a jQuery object invokes the jQuery .map method which provides params in a different order than the javasc
   getName: function(index, value){
     return $(value).attr('name') ;  
@@ -207,11 +219,15 @@ subProcessElements = {
       e.preventDefault() ;
       $link.addClass('disabled')
       $link.siblings('a[name="Pause"]').removeClass("disabled") ;
+      $link.siblings('a[name="End"]').removeClass("disabled") ;
       var $parent = $link.parent('div[name^="sub_process"]') ;
       var now = new Date ;
       $parent.data('start_time', now) ;
       var time_string = commonUtils.getTime(now) ;
-      $link.text(time_string).css('text-decoration', 'none');  
+      $link.text(time_string).css('text-decoration', 'none');
+      container_name = $parent.attr('name') ;
+      div_level = subProcessElements.getDivLevel(container_name);
+      subProcessElements.createPopover(container_name, div_level);
     })
     
     container_div.children('a:contains("+ Sub Process")').click(function(e){
@@ -264,6 +280,28 @@ subProcessElements = {
       }
     }
   
+  },
+  
+  end: function($container_div, $link){
+    $link.popover('hide') ;
+    $container_div.children('a').wrap('<div class = "display_none"></div>') ;
+    var sub_process_duration = subProcessElements.subProcessDuration($container_div) ;
+    $container_div.data('sub_process_duration', sub_process_duration) ;
+    $container_div.children('div[name="end_message_container"]').html("<span style = 'padding-left:15px'>Total Duration: " + sub_process_duration + "</span>") ;
+  },
+  
+  subProcessDuration: function($container_div){
+    var start_time = $container_div.data('start_time') ;
+    var now = new Date ;
+    var elapsed_time = commonUtils.differenceInMinutes(start_time, now) ;
+    var total_pause_time = $container_div.data('pause_duration') ;
+    if(total_pause_time != undefined){
+      var sub_process_duration = elapsed_time - total_pause_time ;
+    }
+    else {
+      var sub_process_duration = elapsed_time ;
+    }
+    return sub_process_duration ;
   }
   
 };                   
