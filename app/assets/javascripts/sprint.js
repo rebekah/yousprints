@@ -1,7 +1,7 @@
 //Ajax
 
-function submit_sprint_form(type,url) {
-    var valuesToSubmit = $("#" + this.id + "").serialize();
+function submit_sprint_form(type,url,form_id) {
+    var valuesToSubmit = $("#" + form_id + "").serialize();
     $.ajax({
         type: type,
         url: url,
@@ -9,7 +9,6 @@ function submit_sprint_form(type,url) {
         dataType: "JSON" 
     }).success(function(data){
       sprint.id = data._id
-
     });
     return false; 
 
@@ -17,14 +16,15 @@ function submit_sprint_form(type,url) {
 
 function submit_sub_process_data() {
     var authenticity_token = $('#during_sprint input[name="authenticity_token"]').first().attr('value');
-    var valuesToSubmit = {"authenticity_token": authenticity_token, "sub_processes": {"1": [{"1": 1},{"1": 1}]}};
+    var sub_processes = new subProcesses ;
+    var sub_processes_json = sub_processes.extract_sub_processes() ;
+    var valuesToSubmit = {"sub_processes": sub_processes_json };
     $.ajax({
         type: "PUT",
-        url: sprint.id,
+        url: "/sprints/" + sprint.id,
         data: valuesToSubmit,
         dataType: "JSON" 
     }).success(function(data){
-
     });
     return false; 
 
@@ -36,6 +36,8 @@ function submit_sub_process_data() {
 function Sprint(){
   this.loss_of_focus = 0 ;
   this.interruption = 0 ;
+  this.duration = 0 ;
+  this.description = '' ;
 };
 
 Sprint.prototype.incrementLossOfFocus = function(){
@@ -91,10 +93,10 @@ subProcesses.prototype.processNextLevel = function(level_value) {
   var div_name = 'sub_process' + level_value + '' ;
   var position = level_value ;
   var description = $('div.sub_process[name="' + div_name + '"] > input[name="description"]').val() ;
-  var start = $('div.sub_process[name="' + div_name + '"] > input[name="start"]').val() ;
-  var end = $('div.sub_process[name="' + div_name + '"] > input[name="end"]').val() ;
-  sub_process_initialization_name = sub_processes.createSubProcessInitializationName(level_value) ;
-  eval('this.sub_process_JSON' +  sub_process_initialization_name + ' = {"position": level_value, "description": description, "start": start, "end": end} ;') ;
+  var duration = $('div.sub_process[name="' + div_name + '"]').data('duration') ;
+  var pause_duration = $('div.sub_process[name="' + div_name + '"]').data('pause_duration') ;
+  sub_process_initialization_name = this.createSubProcessInitializationName(level_value) ;
+  eval('this.sub_process_JSON' +  sub_process_initialization_name + ' = {"position": level_value, "description": description, "duration": duration, "pause_duration": pause_duration} ;') ;
   var new_siblings = this.getNewSiblings(level_value) ;
   this.processSiblings.call(this,level_value) ;
   this.processChildren.call(this,level_value); 
@@ -285,8 +287,9 @@ subProcessElements = {
   end: function($container_div, $link){
     $link.popover('hide') ;
     $container_div.children('a').wrap('<div class = "display_none"></div>') ;
+    $container_div.children('input').attr('disabled', 'true') ;
     var sub_process_duration = subProcessElements.subProcessDuration($container_div) ;
-    $container_div.data('sub_process_duration', sub_process_duration) ;
+    $container_div.data('duration', sub_process_duration) ;
     $container_div.children('div[name="end_message_container"]').html("<span style = 'padding-left:15px'>Total Duration: " + sub_process_duration + "</span>") ;
   },
   

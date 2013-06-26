@@ -91,7 +91,7 @@ describe "creating a new sprint" do
       should have_selector('div.sub_process a', text: "Pause")
     end
     
-    it ('and the "Pause" link will be disabled'), :js, :focus do
+    it ('and the "Pause" link will be disabled'), :js do
       should have_selector('div.sub_process a[name="Pause"].disabled')
     end
     
@@ -148,7 +148,7 @@ describe "creating a new sprint" do
           page.execute_script("$('div[name=\"sub_process_0\"] a:contains(\"End\")').trigger('click')")
         end
       
-        it 'should not have a pop_over section', :js, :focus do
+        it 'should not have a pop_over section', :js  do
           should have_selector('.popover')
         end
         
@@ -170,15 +170,19 @@ describe "creating a new sprint" do
             page.execute_script("$('div[name=\"sub_process_0\"] div.popover div div a:contains(\"Yes\")').trigger('click')")
           end 
           
-          it 'should remove the visisibility of the links of the sub_process', :js, :focus do
+          it 'should remove the visisibility of the links of the sub_process', :js do
             should have_selector('div[name="sub_process_0"] div.display_none a[name="Begin"]')
             should have_selector('div[name="sub_process_0"] div.display_none a:contains("Pause")')
             should have_selector('div[name="sub_process_0"] div.display_none a:contains("End")')
             should have_selector('div[name="sub_process_0"] div.display_none a:contains("+ Sub Process")')
           end
           
-          it 'should display the sub_process total duration text', :js, :focus do
+          it 'should display the sub_process total duration text', :js do
             should have_selector('div[name="sub_process_0"] div[name="end_message_container"] span:contains("Total Duration: ")')  
+          end
+          
+          it 'should disable the text box of the sub_process', :js do
+            should have_selector('div[name="sub_process_0"] input[disabled="disabled"]')
           end
           
         end

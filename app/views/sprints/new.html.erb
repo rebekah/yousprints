@@ -37,6 +37,7 @@
     
     $('input[value="Create Sprint"]').click(function(e){
       e.preventDefault() ;
+      submit_sprint_form('Post','/sprints', $(e.target).parent('form').attr('id'))
       $('form#before_sprint').remove() ;
       $('h3').html('During Sprint');
       $('form#during_sprint').removeClass('display_none') ;

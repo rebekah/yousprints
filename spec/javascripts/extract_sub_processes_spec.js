@@ -1,4 +1,4 @@
-var sub_process_fixture = "<div class = 'sub_process' name = 'sub_process_0'>  <input name = 'description' value = 'some description'/>  <input name = 'start' value = 'the start time'/>  <input name = 'end' value = 'the end time'/>  <div class = 'sub_process' name = 'sub_process_0_0'>    <input name = 'description' value = ''/>    <input name = 'start'/>    <input name = 'end'/>  </div>  <div class = 'sub_process' name = 'sub_process_0_1'>    <input name = 'description' value = ''/>    <input name = 'start'/>    <input name = 'end'/>    <div class = 'sub_process' name = 'sub_process_0_1_0'>      <input name = 'description' value = 'some description'/>      <input name = 'start' value = 'the start time'/>      <input name = 'end' value = 'the end time'/>    </div>  </div></div><div class = 'sub_process' name = 'sub_process_1'>  <input name = 'description' value = 'some description'/>  <input name = 'start' value = 'the start time'/>  <input name = 'end'  value = 'the end time'/></div>"
+var sub_process_fixture = "<div class = 'sub_process' name = 'sub_process_0'>  <input name = 'description' value = 'some description'/>  <div class = 'sub_process' name = 'sub_process_0_0'>    <input name = 'description' value = ''/>   </div>  <div class = 'sub_process' name = 'sub_process_0_1'>    <input name = 'description' value = ''/>   <div class = 'sub_process' name = 'sub_process_0_1_0'>      <input name = 'description' value = 'some description'/>      </div>  </div></div><div class = 'sub_process' name = 'sub_process_1'>  <input name = 'description' value = 'some description'/> </div>"
 describe('extract_sub_processes', function() {
     beforeEach(function(){
       $('body').append('<div id = "fixture_container"></div>') ;
@@ -12,8 +12,13 @@ describe('extract_sub_processes', function() {
     expect($('div.sub_process').length).toBe(5);
   });
   it('finds and properly organizes the sub_process data into a JSON object', function() {
-    sub_processes = new subProcesses ;
-    sub_processes_json = sub_processes.extract_sub_processes();
+    
+    var sub_processes = new subProcesses ;
+        var sub_process_levels_list = ['_0','_0_0','_0_1','_0_1_0','_1'] ;
+    for (i= 0 ; i < sub_process_levels_list.length ; i++) {
+      $('div[name = "sub_process' + sub_process_levels_list[i] + '"]').data('duration',10).data('pause_duration', 1) ;    
+    }
+    var sub_processes_json = sub_processes.extract_sub_processes();
     test_json_string = 
       {
         "sub_processes": 
@@ -21,28 +26,28 @@ describe('extract_sub_processes', function() {
           {
             "position": "_0",
             "description": "some description",
-            "start": "the start time",
-            "end": "the end time",
+            "duration": 10,
+            "pause_duration": 1,
             "sub_processes":
             [
               {
                 "position": "_0_0",
                 "description": "",
-                "start": "",
-                "end": ""
+              "duration": 10,
+              "pause_duration": 1
               },
               {
                 "position": "_0_1",
                 "description": "",
-                "start": "",
-                "end": "",
+              "duration": 10,
+              "pause_duration": 1,
                 "sub_processes":
                 [
                   {
                     "position": "_0_1_0",
                       "description": "some description",
-                      "start": "the start time",
-                      "end": "the end time",
+              "duration": 10,
+              "pause_duration": 1
                   }
                 ]
               }
@@ -51,14 +56,14 @@ describe('extract_sub_processes', function() {
           {
             "position": "_1",
             "description": "some description",
-            "start": "the start time",
-            "end": "the end time"
+            "duration": 10,
+            "pause_duration": 1
           }
         ]
       } ;
       
       test_json_string = JSON.stringify(test_json_string) ;
-      expect(sub_processes_json).toBe(  test_json_string  );
+      expect(sub_processes_json).toBe(test_json_string);
 
   });
 });

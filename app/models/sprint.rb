@@ -17,8 +17,23 @@ class Sprint
   attr_accessible :sub_processes, :notes, :duration, :intention
   has_many :notes
   
-  def add_sub_process_from_params_hash(params)
-    
+  def create_sub_processes_from_hash(sub_processes_hash)
+    sub_processes_hash["sub_processes"].each do |sub_process|
+      create_sub_processes('.sub_processes',sub_process)
+    end
+  end
+  
+  private
+
+  def create_sub_processes(query_string, sub_process) 
+    sibling_level = sub_process["position"].split('_').pop()
+    eval('self' + query_string + ' << SubProcess.new(sibling_level: sibling_level, duration: sub_process["duration"],pause_duration: sub_process["pause_duration"], description: sub_process["description"])')
+    if !sub_process["sub_processes"].nil?
+      query_string = query_string + ".where(sibling_level: #{sibling_level})[0].sub_processes"
+      sub_process["sub_processes"].each do |sub_process|
+        create_sub_processes(query_string, sub_process)  
+      end
+    end
   end
   
 end
