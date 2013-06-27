@@ -3,7 +3,8 @@
 <% end %>
 <h3 style = 'text-align:center'> New Sprint </h3>
 
-<%= render 'form' %>
+<%= render 'before_sprint_form' %>
+<%= render 'during_sprint_form' %>
 
 <div name="sub_processes"></div>
 
@@ -11,16 +12,16 @@
   <%= render :partial => 'notes/form', :locals => {:note => n} %>
 <% end %>
 
+<div id="sprint_duration_end" style = "display:none" class = 'light_box'>
+  <div class = 'modal_x_icon'><a>X</a></div>
+  <%= render 'after_sprint_form' %>
+</div>
+
 <script>
 
   $(function(){
   
     sprint = new Sprint ;
-    
-    $('#before_sprint').submit(function(event){
-        event.preventDefault();
-        submit_sprint_form.call(event.target,"POST",$(event.target).attr('action'));
-    })
     
     $('#during_sprint').submit(function(event){
         event.preventDefault();
@@ -37,12 +38,15 @@
     
     $('input[value="Create Sprint"]').click(function(e){
       e.preventDefault() ;
+      var duration = $('#sprint_duration').val() ;
+      sprint.duration = duration++ ;
       submit_sprint_form('Post','/sprints', $(e.target).parent('form').attr('id'))
       $('form#before_sprint').remove() ;
       $('h3').html('During Sprint');
       $('form#during_sprint').removeClass('display_none') ;
       $('form#sprint_notes').addClass('display_none') ;
       $('form#sprint_reminder_notes').removeClass('display_none') ;
+      sprints.timer.set_times(sprint) ;
     });
     
     $('a:contains("+ Loss of Focus")').click(function(){

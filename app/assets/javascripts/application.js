@@ -15,4 +15,5 @@
 //= require twitter/bootstrap
 //= require devise
 //= require_tree .
+//= require jquery.lightbox_me.js
 

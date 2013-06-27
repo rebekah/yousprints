@@ -1,11 +1,3 @@
-<%= form_tag({:controller => "sprints", :action => "create"}, :method => "post", :class => "big_h_margin", style: 'margin-bottom:35px;', id: 'before_sprint') do %>
-  <label class = "inline">Duration: </label><input type = "text" id = "sprint_duration" name = "sprint[duration]" class = "input integer"/>
-  <br/>
-  <label class = "inline">Intention: </label><textarea id = "sprint_intention" name = "sprint[intention]" class = "textarea textarea_short inline" style = "width:80%;"></textarea>
-  <br />
-  <input class="button float_right" name="commit" type="submit" value="Create Sprint" style = 'margin-right:10px;'>
-<% end %>
-
 <%= form_tag({:controller => "sprints", :action => "update", id: "51a8fca7cbffe6731b00001b"}, id: 'during_sprint', :method => "put", :class => "big_h_margin display_none", style: 'margin-bottom:35px;') do %>
 
 <div class = 'row-fluid'>
@@ -22,5 +14,3 @@
 
 <% end %>
 
-
-  
