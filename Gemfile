@@ -1,5 +1,10 @@
 source 'http://rubygems.org'
 
+group :production do
+  ruby '2.0.0'
+end
+
+
 gem 'rails'
 gem 'thin'
 #gem 'capistrano'
