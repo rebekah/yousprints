@@ -37,7 +37,9 @@ function Sprint(){
   this.loss_of_focus = 0 ;
   this.interruption = 0 ;
   this.duration = 0 ;
-  this.description = '' ;
+  this.start_encapsulation_start_time = new Date ;
+  this.start_time = '';
+  this.end_time = ''
 };
 
 Sprint.prototype.incrementLossOfFocus = function(){
@@ -74,6 +76,42 @@ Sprint.prototype.change_cycle_text =  function(){
      $link.removeClass('disabled') ; 
    }) ;
   };   
+}
+
+sprints = {
+
+  end_notification_sound: '/audio/comp_notification.mp3',
+  
+  playSound: function() {
+    $('body').append("<embed src='" + sprints.end_notification_sound + "' hidden='true' autostart='true' loop='false' class='playSound'>")    
+  },
+
+  atSprintDurationEnd: function(){
+    sprints.playSound();
+    sprints.initiateLightBox();
+  },
+  
+  initiateLightBox: function(){
+    $('#sprint_duration_end').lightbox_me();
+  },
+  
+  timer: {
+  
+    set_times: function(sprint){
+      sprint.start_time = new Date ;
+      sprint.end_time = new Date
+      current_minutes = sprint.start_time.getMinutes() ;
+      new_end_minutes = current_minutes + sprint.duration ;
+      sprint.end_time.setMinutes(new_end_minutes) ;
+    },
+    
+    set_timer: function(sprint){
+     time_in_milliseconds = (sprint.duration * 60000) ;
+     setTimeout(sprints.atSprintDurationEnd,time_in_milliseconds) ;
+    }
+  
+  }
+  
 }
 
 //SubProcess
