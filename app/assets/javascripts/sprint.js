@@ -39,7 +39,8 @@ function Sprint(){
   this.duration = 0 ;
   this.start_encapsulation_start_time = new Date ;
   this.start_time = '';
-  this.end_time = ''
+  this.end_time = '' ;
+  this.pause_duration = 0 ;
 };
 
 Sprint.prototype.incrementLossOfFocus = function(){
@@ -95,19 +96,48 @@ sprints = {
     $('#sprint_duration_end').lightbox_me();
   },
   
-  timer: {
+  toggle_pause_button_text: function($link,cur_text){
+    if (cur_text == 'Pause')
+     var new_text = 'Resume' ;
+    else if (cur_text == 'Resume')
+      var new_text = 'Pause' ;
+    $link.text(new_text) ;
+  },
   
-    set_times: function(sprint){
-      sprint.start_time = new Date ;
-      sprint.end_time = new Date
-      current_minutes = sprint.start_time.getMinutes() ;
-      new_end_minutes = current_minutes + sprint.duration ;
-      sprint.end_time.setMinutes(new_end_minutes) ;
+  pauseFunctions: {
+    storePauseInfo: function(cur_text, sprint){
+      if (cur_text == 'Pause'){
+        sprint.pause_start = new Date ;
+      }
+      if (cur_text == 'Resume'){
+        var pause_length = commonUtils.differenceInMinutes(sprint.pause_start, new Date, "decimal") ;
+        sprint.pause_duration = pause_length ;
+      }
     },
     
-    set_timer: function(sprint){
-     time_in_milliseconds = (sprint.duration * 60000) ;
-     setTimeout(sprints.atSprintDurationEnd,time_in_milliseconds) ;
+    resetTimer: function (sprint){
+      var remaining_minutes = sprints.pauseFunctions.getRemainingDuration(sprint) ; 
+      sprints.timer.setTimer(sprint, remaining_minutes) ;
+    },
+    
+    getRemainingDuration: function(sprint){
+      var new_end_time = commonUtils.timeFunctions.addMinutesAndCreateNewDate(sprint.end_time, sprint.pause_duration) ;
+      var now = new Date ;
+      var remaining_minutes = commonUtils.differenceInMinutes(now, new_end_time, "decimal") ;
+      return remaining_minutes ;
+    }
+  },
+  
+  timer: {
+  
+    setTimes: function(sprint){
+      sprint.start_time = new Date ;
+      sprint.end_time = commonUtils.timeFunctions.addMinutesAndCreateNewDate(new Date, sprint.duration);
+    },
+    
+    setTimer: function(sprint,remaining_minutes){ 
+     var time_in_milliseconds = (typeof remaining_minutes != "undefined") ? (remaining_minutes * 60000) : (sprint.duration * 60000) ;
+     sprint.sprint_timer = setTimeout(sprints.atSprintDurationEnd,time_in_milliseconds) ;
     }
   
   }

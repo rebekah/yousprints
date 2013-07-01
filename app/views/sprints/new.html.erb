@@ -20,6 +20,9 @@
   
     sprint = new Sprint ;
     
+    //hide note submit buttons on sprint views
+    $('form.note input[name="commit"]').addClass('display_none')
+    
     $('#during_sprint').submit(function(event){
         event.preventDefault();
         if (typeof sprint.id != 'undefined'){
@@ -43,7 +46,8 @@
       $('form#during_sprint').removeClass('display_none') ;
       $('form#sprint_notes').addClass('display_none') ;
       $('form#sprint_reminder_notes').removeClass('display_none') ;
-      sprints.timer.set_times(sprint) ;
+      sprints.timer.setTimes(sprint) ;
+      sprints.timer.setTimer(sprint) ;
     });
     
     $('a:contains("+ Loss of Focus")').click(function(){
@@ -61,7 +65,19 @@
       var container_div = subProcessElements.createNewSubProcess();
       subProcessElements.createBindings(container_div);
     });
-  
+    
+    $('form#during_sprint a:contains("Pause")').click(function(e){
+      var $link = $(e.target) ;
+      var cur_text = $link.text() ;
+      sprints.toggle_pause_button_text($link,cur_text) ;
+      sprints.pauseFunctions.storePauseInfo(cur_text, sprint) ;
+      clearTimeout(sprint.sprint_timer) ;
+      if (cur_text == 'Resume'){
+        sprints.pauseFunctions.resetTimer(sprint) ;
+        sprint.end_time = commonUtils.timeFunctions.addMinutesAndCreateNewDate(sprint.end_time, sprint.pause_duration) ;
+      }
+    })
+    
   })
 
 </script>

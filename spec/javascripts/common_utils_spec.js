@@ -155,7 +155,27 @@ describe('common utility functions', function(){
       var time_difference_in_minutes = commonUtils.differenceInMinutes(date1,date2) ;
       expect(time_difference_in_minutes).toEqual(71) ;
     })
+    
+    it('should return the correct decimal value difference in minutes when there is only a difference in seconds and the type is "decimal"', function(){
+      var date1 = new Date ;
+      date1.setMinutes(40) ;
+      date1.setHours(1) ;
+      date1.setSeconds(12) ;
+      var date2 = new Date ;
+      date2.setMinutes(40) ;
+      date2.setHours(1) ;
+      date2.setSeconds(42) ;
+      var time_difference_in_minutes = commonUtils.differenceInMinutes(date1,date2, "decimal") ;
+      expect(time_difference_in_minutes).toEqual(.5) ;
+    })
   
+  })
+  
+  describe ('commonUtils.timeFunctions.addMinutesAndCreateNewDate', function(){
+    var date = new Date ;
+    var later_date = commonUtils.timeFunctions.addMinutesAndCreateNewDate(date,10) ;
+    difference = commonUtils.differenceInMinutes(date,later_date) ;
+    expect(difference).toEqual(10);
   })
   
 }) ;

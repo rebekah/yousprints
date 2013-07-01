@@ -47,8 +47,34 @@ describe "creating a new sprint" do
     before do
       page.execute_script("$('input[value=\"Create Sprint\"]').trigger('click')")
     end
+    
+    it "will have a pause sprint button available", :js, :focus do
+      should have_selector('a#pause_sprint', text: 'Pause')
+    end
+    
+    context "When I click the pause button" do
+      before do
+        page.execute_script("$('a#pause_sprint:contains(\"Pause\")').trigger('click')")
+      end
+      
+      it "will change the button text to 'Resume'", :js, :focus do
+        should have_selector('a', text: 'Resume')
+      end
+      
+      context "And then I click the button again (when it's labeled 'Resume')" do
+        before do
+          page.execute_script("$('a#pause_sprint:contains(\"Resume\")').trigger('click')")
+        end
+        
+        it "will switch the button text back to 'Pause'", :js, :focus do 
+          should have_selector('a', text: 'Pause')
+        end
+      end 
+      
+    end
+    
     it "will display a button with the text '+ Process'", :js do
-      #should have_selector('a', text: '+ Process')
+      should have_selector('a', text: '+ Process')
     end
     
     it "should not display the before sprint form", :js do
@@ -56,7 +82,7 @@ describe "creating a new sprint" do
     end
     
     it "will have a container div for the sub_process", :js do
-      #should have_selector('div#sub_process_container')
+      should have_selector('div[name="sub_processes"]')
     end
     
     it "will have a visible note section for reminders", :js do
@@ -245,7 +271,7 @@ describe "creating a new sprint" do
               page.execute_script("$('div[name=\"sub_process_0\"] a:contains(\"Resume\")').trigger('click')")
             end
             
-            it 'the link text will become switch back to "Resume"', :js  do
+            it 'the link text will swtich back to "Pause"', :js  do
               should_not have_selector('div[name="sub_process_0"] a:contains("Resume")')
               should have_selector('div[name="sub_process_0"] a:contains("Pause")')      
             end

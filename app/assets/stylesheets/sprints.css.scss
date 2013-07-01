@@ -22,7 +22,7 @@
 }
 
 div.sprint_med_button{
-@include button_base(75%, 25px, 0px, 5px) ;
+@include button_base(85%, 25px, 0px, 5px) ;
 @include rounded_corners(6px) ;
   display:block;
   margin-left:auto;
@@ -124,6 +124,13 @@ div.sub_process.tab {
   vertical-align:center ;
   color: #66A366 !important;
   font-weight: bold ;
+}
+
+form#during_sprint {
+  border:0px solid blue;
+  width:550px;
+  margin-left:auto;
+  margin-right:auto;
 }
 
 

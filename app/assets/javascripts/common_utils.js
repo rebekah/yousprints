@@ -44,10 +44,30 @@ commonUtils = {
    return return_value ;
   },
   
-  differenceInMinutes: function(older_date,more_recent_date){  
+  differenceInMinutes: function(older_date,more_recent_date, type){  
     var diff = more_recent_date-older_date
-    difference_in_minutes = Math.round(diff / 60000) ;
+    if (typeof type == "undefined" || type == "integer")
+      difference_in_minutes = Math.round(diff / 60000) ;
+    else if ( type = "decimal" )
+       difference_in_minutes = Math.round(100 * (diff / 60000))/100 ;
     return difference_in_minutes ;
+  },
+  
+  timeFunctions: {
+  
+    addMinutesAndCreateNewDate: function(original_date_object, minutes_to_add){
+      original_seconds = original_date_object.getSeconds() ;
+      new_seconds = original_seconds + (minutes_to_add * 60) ;
+      new_date = commonUtils.timeFunctions.cloneDate(original_date_object) ;
+      new_date.setSeconds(new_seconds) ;
+      return new_date ;
+    },
+  
+    cloneDate: function(date){
+      new_date = new Date(date.getTime()) ;
+      return new_date ;
+    }
+  
   },
   
   switchText: function($jquery_element, new_text) {
@@ -63,7 +83,7 @@ commonUtils = {
       return "object";
     }
     return typeof(v);
-  },
+  }
   
   
 }
