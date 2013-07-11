@@ -83,6 +83,12 @@ commonUtils = {
       return "object";
     }
     return typeof(v);
+  },
+  
+  flashMessage: function(type, message){
+    var type = (type == 'notice') ? 'success' : type ;
+    var html = '<div class="alert alert-' + type + '"><a class="close" data-dismiss="alert">x</a>' + message + '</div>'
+    $('div.navbar').after(html) ;
   }
   
   

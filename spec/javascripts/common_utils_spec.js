@@ -177,5 +177,34 @@ describe('common utility functions', function(){
     difference = commonUtils.differenceInMinutes(date,later_date) ;
     expect(difference).toEqual(10);
   })
+
+  describe('commonUtils.flashMessage', function(){
+  
+    beforeEach(function(){
+     $('body').append("<div id='fixture_container'></div>") ;
+     $('#fixture_container').append(nav_html) ;
+    })
+    
+    afterEach(function(){
+      $('#fixture_container').remove() ;
+    })
+    
+    
+    it('will create a new notice message div', function(){
+      commonUtils.flashMessage('notice','This is a flash notice.') ;
+      expect($('div.alert-success').length).toEqual(1) ;
+    })
+    
+    it('will create a new alert message', function(){
+      commonUtils.flashMessage('alert','This is a flash alert.') ;
+      expect($('div.alert-alert').length).toEqual(1) ;  
+    })
+    
+    it('will create a new error message', function(){
+      commonUtils.flashMessage('error','This is a flash error.') ;
+      expect($('div.alert-error').length).toEqual(1) ;  
+    })
+    
+  })
   
 }) ;
