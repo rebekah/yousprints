@@ -11,7 +11,7 @@
 
 <div id="sprint_duration_end" style = "display:none" class = 'light_box'>
   <div class = 'modal_x_icon'><a>X</a></div>
-  <%= render 'after_sprint_form' %>
+  <%= render 'after_sprint_forms' %>
 </div>
 
 <script>
@@ -73,11 +73,29 @@
       sprints.pauseFunctions.storePauseInfo(cur_text, sprint) ;
       clearTimeout(sprint.sprint_timer) ;
       if (cur_text == 'Resume'){
-        sprints.pauseFunctions.resetTimer(sprint) ;
-        sprint.end_time = commonUtils.timeFunctions.addMinutesAndCreateNewDate(sprint.end_time, sprint.pause_duration) ;
+        sprints.addTime(sprint,sprint.pause_duration)
+        sprints.resetTimer(sprint) ;
       }
     })
     
+    $('a#add_time').click(function(){
+      $('form#on_sprint_completion').css('display','none') ;
+      $('form#add_time').css('display','block') ;
+    })
+    
+    $('form#add_time input.button').click(function(e){
+      e.preventDefault() ;
+      sprints.onAddTime(sprint) ;
+    })
+    
+    $('a#finish_sprint').click(function(){
+      sprints.assessSprint() ;
+    })
+    
+    $('form#assess_sprint input.button').click(function(e){
+      e.preventDefault() ;
+      sprints.atSprintCompletion(sprint) ;
+    })
   })
 
 </script>

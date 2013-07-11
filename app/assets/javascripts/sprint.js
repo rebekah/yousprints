@@ -96,6 +96,20 @@ sprints = {
     $('#sprint_duration_end').lightbox_me();
   },
   
+  onAddTime: function(sprint){
+    //need to add form validation here!!!
+      var time_to_add = $('form#add_time input.minutes').val();
+      var time_to_add = time_to_add++ ;
+      sprints.addTime(sprint,time_to_add) ;
+      sprints.resetTimer ;
+      $('div#sprint_duration_end').trigger('close') ;
+      $('form#on_sprint_completion').css('display', 'block') ;
+      $('form#add_time').css('display', 'none') ;
+      var minute_text = (time_to_add == 1) ? 'minute' : 'minutes' ;
+      var message_text = time_to_add + ' ' + minute_text + ' has been added to your sprint.' ;
+      commonUtils.flashMessage('notice', message_text) ;
+  },    
+  
   toggle_pause_button_text: function($link,cur_text){
     if (cur_text == 'Pause')
      var new_text = 'Resume' ;
@@ -128,6 +142,21 @@ sprints = {
     }
   },
   
+  addTime: function(sprint,time_in_minutes){
+    sprint.end_time = commonUtils.timeFunctions.addMinutesAndCreateNewDate(sprint.end_time, time_in_minutes) ;  
+  },
+  
+  getRemainingDuration: function(sprint){
+    var now = new Date ;
+    var remaining_minutes = commonUtils.differenceInMinutes(now, sprint.end_time, "decimal") ;
+    return remaining_minutes ;
+  },
+    
+  resetTimer: function (sprint){
+    var remaining_minutes = sprints.getRemainingDuration(sprint) ; 
+    sprints.timer.setTimer(sprint, remaining_minutes) ;
+  },
+
   timer: {
   
     setTimes: function(sprint){
@@ -139,6 +168,13 @@ sprints = {
      var time_in_milliseconds = (typeof remaining_minutes != "undefined") ? (remaining_minutes * 60000) : (sprint.duration * 60000) ;
      sprint.sprint_timer = setTimeout(sprints.atSprintDurationEnd,time_in_milliseconds) ;
     }
+  
+  },
+  
+  assessSprint: function(){
+    $('form#on_sprint_completion').css('display', 'none') ;
+    $('form#assess_sprint').css('display','block') ;
+  },
   
   }
   

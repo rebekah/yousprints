@@ -1,0 +1,37 @@
+<form id = 'on_sprint_completion'>
+  <div class = 'row-fluid'>
+    <div class = "span4">
+      <div class = 'sprint_med_button'><a href = "#" id = "finish_sprint">Finish</a></div>
+    </div>
+    <div class = "span4">
+      <div class = 'sprint_med_button'><a href = "#" id = "add_time">Add Time</a></div>
+    </div>
+    <div class = "span4">
+      <div class = 'sprint_med_button'><a href = "#" id = "manual">Manual</a></div>
+    </div>
+  </div>
+</form>
+
+<form id = "add_time">
+  <label>Minutes to add:</label>
+  <input type = "text" class = 'minutes'></input>
+   <input class="button" type="submit" value="Continue">
+</form>
+
+<%= form_tag({:controller => "sprints", :action => "update", id: ""}, id: 'assess_sprint', :method => :put, style: 'margin: 0px 0px 10px 0px; display:none;') do %>
+  <label class = "inline">Measure of Intention Completed:</label>
+  <input class = "small_text_box inline" id = "percentage_complete" name = 'sprint[percentage_complete]' />
+  <span>%</span>
+  <div class = 'assess_sprint_divider'></div>
+  <label>Consistency of Focus:</label>
+  <% for i in 1..10 %>
+  <span class = 'assess_sprint_radio'><input class = 'inline' type = 'radio' name = 'sprint[focus_consistency]' value = <%= i %> /><%= i %></span>  
+  <% end %>
+  <div class = 'assess_sprint_divider'></div>
+  <label>Intensity of Focus:</label>
+  <% for i in 1..10 %>
+  <span class = 'assess_sprint_radio'><input class = 'inline' type = 'radio' name = 'sprint[focus_intensity]' value = <%= i %> /><%= i %></span> 
+  <% end %>
+  <div class = 'assess_sprint_divider'></div>
+  <input class="button" type="submit" value="Submit" style = "margin-top:4px;" />
+<% end %>

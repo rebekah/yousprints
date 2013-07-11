@@ -1,4 +1,6 @@
 var pause_button_html = '<form id="during_sprint"><a>Pause</a></form>' ;
+var nav_html = "<div class = 'navbar'></div>" ;
+var extend_sprint_time_html = '<div id="sprint_duration_end" style="left: 50%; margin-left: -217px; z-index: 1002; position: fixed; top: 40px; display: block;" class="light_box"><div class="modal_x_icon"><a>X</a></div><form id="on_sprint_completion" style="display: none;"></form><form id="add_time" style="display: block;"><div id="add_time_input_section">  <label>Minutes to add:</label>  <input type="text" class="minutes" value="45">   <input class="button" type="submit" value="Continue"></div></form></div>' ;
 
 describe('toggle_pause_button_text', function(){
 
@@ -51,20 +53,64 @@ describe('sprints.pauseFunctions.storePauseInfo', function(){
 
 })
 
-describe('sprints.pauseFunctions.getRemainingDuration', function(){
+describe('sprints.getRemainingDuration', function(){
 
   it ("will return the correct value for remaining duration time after a pause", function(){
     var sprint = new Sprint ;
-    var date = new Date ;
-    var current_minutes = date.getMinutes() ;
-    var minutes_ten_minutes_ago = current_minutes -10 ;
-    date.setMinutes(minutes_ten_minutes_ago) ;
-    sprint.start_time = date ;
-    sprint.end_time = commonUtils.timeFunctions.addMinutesAndCreateNewDate(date, 20) ;
-    sprint.duration = 20 ;
-    sprint.pause_duration = 5 ;
-    remaining_minutes = sprints.pauseFunctions.getRemainingDuration(sprint) ;
+    sprint.start_time = new Date ;
+    sprint.end_time = commonUtils.timeFunctions.addMinutesAndCreateNewDate(sprint.start_time, 15) ;
+    remaining_minutes = sprints.getRemainingDuration(sprint) ;
     expect(remaining_minutes).toEqual(15) ;     
   })
   
+})
+
+describe('sprints.addTime', function(){
+  
+  it('will change the end_time by the specified amount', function(){
+    sprint = new Sprint ;
+    old_end_time = sprint.end_time = new Date ;
+    sprints.addTime(sprint, 15) ;
+    difference_between_end_times = commonUtils.differenceInMinutes(old_end_time, sprint.end_time) ;
+    expect(difference_between_end_times).toEqual(15) ;
+  })
+
+})
+
+describe('sprints.onAddTime', function(){
+
+  beforeEach(function(){
+   $('body').append("<div id='fixture_container'></div>") ;
+   $('#fixture_container').append(extend_sprint_time_html) ;
+  })
+  
+  afterEach(function(){
+    $('#fixture_container').remove() ;
+  })
+  
+  it('will change the end_time by the specified amount', function(){
+    var sprint = new Sprint ;
+    var old_end_time = sprint.end_time = new Date ;
+    //Working from minutes value on form
+    sprints.onAddTime(sprint) ;
+    var difference_between_end_times = commonUtils.differenceInMinutes(old_end_time, sprint.end_time) ;
+    expect(difference_between_end_times).toEqual(45) ;
+  })
+  
+  it('will set the "Add Time" dialog to not visible', function(){
+    sprint = new Sprint ;
+    var old_end_time = sprint.end_time = new Date ;
+    sprints.onAddTime(sprint) ;
+    var add_time_form_visibility = ($('div#sprint_duration_end form#add_time:visible').length > 0) ? true :false
+    expect(add_time_form_visibility).toBe(false) ;    
+  })
+  
+  it('will set the "initial light box form" dialog to visible', function(){
+    var sprint = new Sprint ;
+    var old_end_time = sprint.end_time = new Date ;
+    sprints.onAddTime(sprint) ;
+    var light_box_visiblity = ($('div#sprint_duration_end form#on_sprint_completion:visible').length > 0) ? true :false
+    expect(light_box_visiblity).toBe(true) ;  
+  })
+
 })
