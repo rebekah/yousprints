@@ -48,6 +48,10 @@ describe "creating a new sprint" do
       page.execute_script("$('input[value=\"Create Sprint\"]').trigger('click')")
     end
     
+    it "will have a ujs enabled form with the id 'during_sprint'" do
+      should have_selector('form#during_sprint[remote="true"]')
+    end
+    
     it "will have a pause sprint button available", :js, :focus do
       should have_selector('a#pause_sprint', text: 'Pause')
     end

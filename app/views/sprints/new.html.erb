@@ -17,30 +17,22 @@
 <script>
 
   $(function(){
-  
     sprint = new Sprint ;
     
     //hide note submit buttons on sprint views
     $('form.note input[name="commit"]').addClass('display_none')
     
-    $('#during_sprint').submit(function(event){
-        event.preventDefault();
-        if (typeof sprint.id != 'undefined'){
-          submit_sub_process_data.call( event.target, "PUT", sprint.id ) ;
-        }
-        else {
-          console.log ('The update of sprint did not succeed because sprint.id was not yet defined') ;
-        }
-  
-    })
-    
     $('form#sprint_reminder_notes').addClass('display_none') ;
     
     $('input[value="Create Sprint"]').click(function(e){
       e.preventDefault() ;
+      //Close any flash messages before proceeding
+      if ($('div.alert a.close').length > 0)
+        $('div.alert a.close').trigger('click')
       var duration = $('#sprint_duration').val() ;
-      sprint.duration = duration++ ;
-      submit_sprint_form('Post','/sprints', $(e.target).parent('form').attr('id'))
+      sprint.duration = duration++ ; 
+      var url = '/sprints' ;
+      ajax.submitSprintForm('Post', url, $(e.target).parent('form').attr('id')) ;
       $('form#before_sprint').remove() ;
       $('h3').html('During Sprint');
       $('form#during_sprint').removeClass('display_none') ;

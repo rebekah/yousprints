@@ -21,3 +21,4 @@ spec/tmp/*
 chromedriver.log
 spec/javascripts/fixtures/spec_template.js
 .DS_store
+*.marks

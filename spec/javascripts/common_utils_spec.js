@@ -33,7 +33,7 @@ describe('common utility functions', function(){
       }) ;
       
       it('getHour should be greater than or equal to 0', function(){
-        expect(minutes).toBeGreaterThan(0) ;
+        expect(minutes).toBeGreaterThan(-1) ;
       }) ;
       
       it('getHour should be less than or equal to 24', function(){

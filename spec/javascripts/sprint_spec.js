@@ -1,6 +1,7 @@
 var pause_button_html = '<form id="during_sprint"><a>Pause</a></form>' ;
 var nav_html = "<div class = 'navbar'></div>" ;
 var extend_sprint_time_html = '<div id="sprint_duration_end" style="left: 50%; margin-left: -217px; z-index: 1002; position: fixed; top: 40px; display: block;" class="light_box"><div class="modal_x_icon"><a>X</a></div><form id="on_sprint_completion" style="display: none;"></form><form id="add_time" style="display: block;"><div id="add_time_input_section">  <label>Minutes to add:</label>  <input type="text" class="minutes" value="45">   <input class="button" type="submit" value="Continue"></div></form></div>' ;
+var during_sprint_form = '<form id = "during_sprint"><input name = "authenticity_token"/></form>'
 
 describe('toggle_pause_button_text', function(){
 
@@ -111,6 +112,35 @@ describe('sprints.onAddTime', function(){
     sprints.onAddTime(sprint) ;
     var light_box_visiblity = ($('div#sprint_duration_end form#on_sprint_completion:visible').length > 0) ? true :false
     expect(light_box_visiblity).toBe(true) ;  
+  })
+
+})
+
+describe('sprints.addInputElementsToDuringSprintForm', function(){
+
+  beforeEach(function(){
+   $('body').append("<div id='fixture_container'></div>") ;
+   $('#fixture_container').append(during_sprint_form) ;
+  })
+  
+  afterEach(function(){
+    $('#fixture_container').remove() ;
+  })
+  
+  it('Will have a distractions input with the value of 3', function(){
+    sprint = new Sprint ;
+    sprint.interruptions = 3 ;
+    sprints.addInputElementsToDuringSprintForm() ;
+    var distractions = $('input[name="sprint[interruptions]"]').val() ;
+    expect(distractions).toEqual("3") ;
+  })
+  
+  it('Will have a loss_of_focus input with the value of 4', function(){
+    sprint = new Sprint ;
+    sprint.loss_of_focus_count = 4 ;
+    sprints.addInputElementsToDuringSprintForm() ;
+    var loss_of_focus_count = $('input[name="sprint[loss_of_focus_count]"]').val() ;
+    expect(loss_of_focus_count).toEqual("4")   
   })
 
 })

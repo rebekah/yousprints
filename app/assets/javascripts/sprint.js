@@ -1,41 +1,58 @@
 //Ajax
 
-function submit_sprint_form(type,url,form_id) {
-    var valuesToSubmit = $("#" + form_id + "").serialize();
-    $.ajax({
-        type: type,
-        url: url,
-        data: valuesToSubmit,
-        dataType: "JSON" 
-    }).success(function(data){
-      sprint.id = data._id
-    });
-    return false; 
+ajax = {
 
-};
+  submitSprintForm: function(type,url,form_id, values_to_submit) {
+      var valuesToSubmit = (typeof values_to_submit == 'undefined') ? $("#" + form_id + "").serialize() : values_to_submit ;
+      $.ajax({
+          type: type,
+          url: url,
+          data: valuesToSubmit,
+          dataType: "JSON" 
+      }).success(function(data){
+        sprint.id = data._id
+      });
+      return false; 
+  
+  },
+  
+  submitSubProcessData: function() {
+      var sub_processes = new subProcesses ;
+      var sub_processes_json = sub_processes.extract_sub_processes() ;
+      var valuesToSubmit = {"sub_processes": sub_processes_json };
+      $.ajax({
+          type: "PUT",
+          url: "/sprints/" + sprint.id,
+          data: valuesToSubmit,
+          dataType: "JSON" 
+      }).success(function(data){
+      });
+      return false; 
+  
+  },
 
-function submit_sub_process_data() {
-    var authenticity_token = $('#during_sprint input[name="authenticity_token"]').first().attr('value');
-    var sub_processes = new subProcesses ;
-    var sub_processes_json = sub_processes.extract_sub_processes() ;
-    var valuesToSubmit = {"sub_processes": sub_processes_json };
-    $.ajax({
-        type: "PUT",
-        url: "/sprints/" + sprint.id,
-        data: valuesToSubmit,
-        dataType: "JSON" 
-    }).success(function(data){
-    });
-    return false; 
+  submitFinalSprintData: function(){
+      
+      // submit subprocess info
+      ajax.submitSubProcessData() ;
+         
+      // submit final duration end_time - pause_time - start_time  ;
+      sprints.addInputElementsToDuringSprintForm() ;
+      sprints.setActionOnForm('during_sprint') ;
+      $('form#during_sprint').submit() ;
+      
+      // submit assessment info as a regular form submit which will refresh the page and provide for a flash notice upon success
+      sprints.setActionOnForm('assess_sprint') ;
+      $('form#assess_sprint').submit() ;
+  }
 
-};
-
+}
 
 //Sprint
 
 function Sprint(){
-  this.loss_of_focus = 0 ;
-  this.interruption = 0 ;
+  this.loss_of_focus_count = 0 ;
+  this.interruptions = 0 ;
   this.duration = 0 ;
   this.start_encapsulation_start_time = new Date ;
   this.start_time = '';
@@ -44,11 +61,11 @@ function Sprint(){
 };
 
 Sprint.prototype.incrementLossOfFocus = function(){
- this.loss_of_focus += 1
+ this.loss_of_focus_count += 1
 }
 
 Sprint.prototype.incrementInterruption = function(){
-  this.interruption += 1
+  this.interruptions += 1
 }
 
 Sprint.prototype.change_cycle_text =  function(){
@@ -92,6 +109,10 @@ sprints = {
     sprints.initiateLightBox();
   },
   
+  atSprintCompletion: function(sprint){
+    ajax.submitFinalSprintData(sprint) ;
+  },
+  
   initiateLightBox: function(){
     $('#sprint_duration_end').lightbox_me();
   },
@@ -127,18 +148,6 @@ sprints = {
         var pause_length = commonUtils.differenceInMinutes(sprint.pause_start, new Date, "decimal") ;
         sprint.pause_duration = pause_length ;
       }
-    },
-    
-    resetTimer: function (sprint){
-      var remaining_minutes = sprints.pauseFunctions.getRemainingDuration(sprint) ; 
-      sprints.timer.setTimer(sprint, remaining_minutes) ;
-    },
-    
-    getRemainingDuration: function(sprint){
-      var new_end_time = commonUtils.timeFunctions.addMinutesAndCreateNewDate(sprint.end_time, sprint.pause_duration) ;
-      var now = new Date ;
-      var remaining_minutes = commonUtils.differenceInMinutes(now, new_end_time, "decimal") ;
-      return remaining_minutes ;
     }
   },
   
@@ -176,6 +185,16 @@ sprints = {
     $('form#assess_sprint').css('display','block') ;
   },
   
+  addInputElementsToDuringSprintForm: function(){
+    var loss_of_focus_count_input = '<input  type = "hidden" name = "sprint[loss_of_focus_count]" value = ' + sprint.loss_of_focus_count + '>' ;
+    var interruptions_input = '<input  type = "hidden" name = "sprint[interruptions]" value = ' + sprint.interruptions + '>' ;
+    $('#during_sprint input[name="authenticity_token"]').after(loss_of_focus_count_input) ;
+    $('#during_sprint input[name="authenticity_token"]').after(interruptions_input) ;
+  },
+  
+  setActionOnForm: function(form_id) {
+    var action_string = $('form#' + form_id + '').attr('action') + sprint.id
+    $('form#' + form_id + '').attr('action', action_string)
   }
   
 }
