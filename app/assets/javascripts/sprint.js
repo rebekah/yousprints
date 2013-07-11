@@ -364,7 +364,7 @@ subProcessElements = {
   subProcessDuration: function($container_div){
     var start_time = $container_div.data('start_time') ;
     var now = new Date ;
-    var elapsed_time = commonUtils.differenceInMinutes(start_time, now) ;
+    var elapsed_time = commonUtils.differenceInMinutes(start_time, now, 'decimal') ;
     var total_pause_time = $container_div.data('pause_duration') ;
     if(total_pause_time != undefined){
       var sub_process_duration = elapsed_time - total_pause_time ;
