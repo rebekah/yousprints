@@ -10,7 +10,7 @@
 <% end %>
 
 <div id="sprint_duration_end" style = "display:none" class = 'light_box'>
-  <div class = 'modal_x_icon'><a>X</a></div>
+  <!--<div class = 'modal_x_icon'><a>X</a></div>-->
   <%= render 'after_sprint_forms' %>
 </div>
 
@@ -27,8 +27,7 @@
     $('input[value="Create Sprint"]').click(function(e){
       e.preventDefault() ;
       //Close any flash messages before proceeding
-      if ($('div.alert a.close').length > 0)
-        $('div.alert a.close').trigger('click')
+      sprints.removeFlashMessages() ;
       var duration = $('#sprint_duration').val() ;
       sprint.duration = duration++ ; 
       var url = '/sprints' ;

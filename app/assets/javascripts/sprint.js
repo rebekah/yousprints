@@ -10,7 +10,9 @@ ajax = {
           data: valuesToSubmit,
           dataType: "JSON" 
       }).success(function(data){
+       if (sprint.id == undefined) {
         sprint.id = data._id
+       }
       });
       return false; 
   
@@ -110,11 +112,12 @@ sprints = {
   },
   
   atSprintCompletion: function(sprint){
+    sprints.removeFlashMessages() ;
     ajax.submitFinalSprintData(sprint) ;
   },
   
   initiateLightBox: function(){
-    $('#sprint_duration_end').lightbox_me();
+    $('#sprint_duration_end').lightbox_me({closeClick: false});
   },
   
   onAddTime: function(sprint){
@@ -122,7 +125,8 @@ sprints = {
       var time_to_add = $('form#add_time input.minutes').val();
       var time_to_add = time_to_add++ ;
       sprints.addTime(sprint,time_to_add) ;
-      sprints.resetTimer ;
+      sprints.resetTimer(sprint) ;
+      ajax.submitSprintForm('PUT',''+ sprint.id, '', {"sprint": {"duration": sprint.duration}} )
       $('div#sprint_duration_end').trigger('close') ;
       $('form#on_sprint_completion').css('display', 'block') ;
       $('form#add_time').css('display', 'none') ;
@@ -152,6 +156,7 @@ sprints = {
   },
   
   addTime: function(sprint,time_in_minutes){
+    sprint.duration = sprint.duration + time_in_minutes
     sprint.end_time = commonUtils.timeFunctions.addMinutesAndCreateNewDate(sprint.end_time, time_in_minutes) ;  
   },
   
@@ -162,7 +167,7 @@ sprints = {
   },
     
   resetTimer: function (sprint){
-    var remaining_minutes = sprints.getRemainingDuration(sprint) ; 
+    var remaining_minutes = sprints.getRemainingDuration(sprint) ;
     sprints.timer.setTimer(sprint, remaining_minutes) ;
   },
 
@@ -195,8 +200,12 @@ sprints = {
   setActionOnForm: function(form_id) {
     var action_string = $('form#' + form_id + '').attr('action') + sprint.id
     $('form#' + form_id + '').attr('action', action_string)
-  }
+  },
   
+  removeFlashMessages: function() {
+    if ($('div.alert a.close').length > 0)
+    $('div.alert a.close').trigger('click')
+  }
 }
 
 //SubProcess

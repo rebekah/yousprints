@@ -28,7 +28,7 @@ class SprintsController < ApplicationController
         if ! params[:sub_processes].nil?
           sub_processes_hash = ActiveSupport::JSON.decode(params[:sub_processes])
           @sprint.create_sub_processes_from_hash(sub_processes_hash)
-        elsif ! params[:intention].nil?
+        elsif ! params[:sprint][:duration].nil?
           @sprint.update_attributes(params[:sprint])  
         end
         render :json => @sprint
