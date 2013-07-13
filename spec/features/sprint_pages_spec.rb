@@ -48,11 +48,11 @@ describe "creating a new sprint" do
       page.execute_script("$('input[value=\"Create Sprint\"]').trigger('click')")
     end
     
-    it "will have a ujs enabled form with the id 'during_sprint'" do
-      should have_selector('form#during_sprint[remote="true"]')
+    it "will have a ujs enabled form with the id 'during_sprint'", :js, :focus do
+      should have_selector('form#during_sprint[data-remote="true"]')
     end
     
-    it "will have a pause sprint button available", :js, :focus do
+    it "will have a pause sprint button available", :js do
       should have_selector('a#pause_sprint', text: 'Pause')
     end
     
@@ -61,7 +61,7 @@ describe "creating a new sprint" do
         page.execute_script("$('a#pause_sprint:contains(\"Pause\")').trigger('click')")
       end
       
-      it "will change the button text to 'Resume'", :js, :focus do
+      it "will change the button text to 'Resume'", :js do
         should have_selector('a', text: 'Resume')
       end
       
@@ -70,7 +70,7 @@ describe "creating a new sprint" do
           page.execute_script("$('a#pause_sprint:contains(\"Resume\")').trigger('click')")
         end
         
-        it "will switch the button text back to 'Pause'", :js, :focus do 
+        it "will switch the button text back to 'Pause'", :js do 
           should have_selector('a', text: 'Pause')
         end
       end 

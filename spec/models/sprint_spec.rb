@@ -12,7 +12,7 @@ describe Sprint do
     it {expect{@sprint.administration_end}.to_not raise_error(NameError)}
     it {expect{@sprint.intention}.to_not raise_error(NameError)}
     it {expect{@sprint.sprint_start}.to_not raise_error(NameError)}
-    it {expect{@sprint.percent_of_optimistic}.to_not raise_error(NameError)}
+    it {expect{@sprint.percentage_complete}.to_not raise_error(NameError)}
     it {expect{@sprint.result}.to_not raise_error(NameError)}
     it {expect{@sprint.next_steps}.to_not raise_error(NameError)}
     

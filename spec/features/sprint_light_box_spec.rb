@@ -77,12 +77,12 @@ describe "sprint light box behavior" do
       
       it "should have a group of radio buttons for intensity of focus", :js do
         should have_selector('form#assess_sprint label:contains("Intensity of Focus:")') 
-        should have_selector('form#assess_sprint input[type="radio"][name="focus_intensity"]')
+        should have_selector('form#assess_sprint input[type="radio"][name="sprint[focus_intensity]"]')
       end
       
       it "should have a group of radio buttons for 'Consistency of Focus'", :js do
         should have_selector('form#assess_sprint label:contains("Consistency of Focus")') 
-        should have_selector('form#assess_sprint input[type="radio"][name="focus_consistency"]')        
+        should have_selector('form#assess_sprint input[type="radio"][name="sprint[focus_consistency]"]')        
       end
       
     end
@@ -94,7 +94,7 @@ describe "sprint light box behavior" do
       end
       
       it 'A flash message will display', :js, :focus do
-        should have_content('Sprint submitted successfully.')
+        should have_content('Your sprint has been successfully submitted')
       end
       
     end
