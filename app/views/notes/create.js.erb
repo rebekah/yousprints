@@ -1,0 +1,5 @@
+//Changes the daily brain dump form from a post to a put submission type
+
+$('form#daily_notes').attr('action', 'notes/<%= @note.id %>')
+$('form#daily_notes input[name="authenticity_token"]').after('<input name="_method" type="hidden" value="put">')
+

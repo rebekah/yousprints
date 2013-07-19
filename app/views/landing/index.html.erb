@@ -13,3 +13,13 @@
 <% else %>
 	<%= render 'devise/sessions/form' %>
 <% end %>
+
+<script>
+  $(function(){
+    $('form#daily_notes textarea').on('blur', function(){
+      $('form#daily_notes').submit() ; 
+      sprints.displaySavingMessage($('form#daily_notes div.note_content span#saving_message'), $('form#daily_notes'), $('form#daily_notes div.note_content textarea')) ;   
+    })
+  })
+  $('form#daily_notes div.note_content label').css('display','inline').css('margin-right','10px').after('<span id = "saving_message" style="display:none;color:green;">Saving...</span>')
+</script>

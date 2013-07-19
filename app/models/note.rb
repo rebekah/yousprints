@@ -9,6 +9,8 @@ class Note
   belongs_to :user
   belongs_to :sprint
   
+  attr_accessible :note_type, :content
+  
   has_one :note_type
   
 end

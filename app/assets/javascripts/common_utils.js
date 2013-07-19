@@ -70,8 +70,20 @@ commonUtils = {
   
   },
   
-  switchText: function($jquery_element, new_text) {
+  switchText: function($jquery_element, new_text, call_back, hold_duration) {
     $jquery_element.text(new_text) ;
+    if (typeof call_back != "undefined"){
+      if (typeof hold_duration != "undefined"){
+        setTimeout(call_back, hold_duration) ;
+      }
+      else {
+       call_back() ;
+      }
+    }
+  },
+  
+  flashText: function($jquery_element, current_text, new_text, hold_duration){
+    commonUtils.switchText($jquery_element, new_text, function(){commonUtils.switchText($jquery_element, current_text)}, hold_duration) ; 
   },
   
   realTypeOf: function(v) {

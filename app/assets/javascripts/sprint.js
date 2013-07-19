@@ -205,6 +205,14 @@ sprints = {
   removeFlashMessages: function() {
     if ($('div.alert a.close').length > 0)
     $('div.alert a.close').trigger('click')
+  },
+  
+  displaySavingMessage: function($message_element, $form, $value_element) {
+    if (typeof $form != "undefined" && typeof $value_element != undefined) {
+      if ($value_element.val() != ''){
+        $message_element.fadeIn(1000, function(){setTimeout(function(){$message_element.fadeOut(1000)},2000)}) ;
+      }
+    }
   }
 }
 
