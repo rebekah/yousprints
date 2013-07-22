@@ -6,7 +6,8 @@ class SprintsController < ApplicationController
     @note_sprint_reminders = Note.new
     @note_sprint_dump.note_type = NoteType.where(name: 'sprint_notes')[0]
     @note_sprint_reminders.note_type = NoteType.any_of({name: /reminder/})[0]
-    @notes = [@note_sprint_dump, @note_sprint_reminders]
+    #@notes = [@note_sprint_dump, @note_sprint_reminders]
+    @notes = [@note_sprint_reminders]
     @notes.each do |note|
       @sprint.notes << note
     end

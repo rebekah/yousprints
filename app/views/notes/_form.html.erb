@@ -1,5 +1,3 @@
 <%= simple_form_for( note, html: { class: 'note', style: 'margin:0px 25px', id: note.note_type[:name] }, remote: true) do |f| %>
   <%= f.input :content, as: :text, label: note.note_type[:label] + ':', input_html: {class: 'textarea textarea_med_short'} %>
-  
-  <%= f.submit %>
 <% end %>
