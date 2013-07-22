@@ -5,11 +5,12 @@ describe SprintsController do
   describe "a POST request from the intial sprint info form" do
   
     before do
-     login_test_user
+     @user = login_test_user
+     controller.stub(:current_user) { @user }
     end
     
-    it 'when recieve a properly formatted post request, it will create a new Sprint object' do 
-      expect {post :create, {format: 'json', sprint: { duration: 10, intention: "foobar"}} }.to change{Sprint.count}.by(1)
+    it 'when it recieves a properly formatted post request, it will create a new sprint object owned by the user' do 
+      expect {post :create, {format: 'json', sprint: { duration: 10, intention: "foobar"}} }.to change{@user.sprints.all.count}.by(1)
     end
   
     

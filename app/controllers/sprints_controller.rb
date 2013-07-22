@@ -15,14 +15,15 @@ class SprintsController < ApplicationController
   def create
     respond_to do |format|
       format.json do
-        @sprint = Sprint.create(params[:sprint])
+        @sprint = Sprint.new(params[:sprint])
+        current_user.sprints << @sprint
         render :json => @sprint
       end
     end
   end
   
   def update
-    @sprint = Sprint.find(params[:id])
+    @sprint = current_user.sprints.find(params[:id])
     respond_to do |format|
       format.json do
         if ! params[:sub_processes].nil?

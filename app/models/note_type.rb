@@ -6,6 +6,6 @@ class NoteType
   field :label, type: String
   field :button_label, type: String
   
-  belongs_to :note
+  has_many :notes
   
 end
