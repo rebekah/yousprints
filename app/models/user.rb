@@ -41,6 +41,6 @@ class User
   has_many :sprints
   has_many :notes
   
-  attr_accessible :notes
+  attr_accessible :notes, :email, :password
   
 end
