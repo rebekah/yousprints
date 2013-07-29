@@ -46,6 +46,20 @@ ajax = {
       // submit assessment info as a regular form submit which will refresh the page and provide for a flash notice upon success
       sprints.setActionOnForm('assess_sprint') ;
       $('form#assess_sprint').submit() ;
+  },
+  
+  getSprints: function(args){ 
+    var message = {}
+    if ( typeof args != "undefined" && typeof args["date_range"] != "undefined") { message["date_range"] = args["date_range"]}
+    $.ajax({
+      type: "GET",
+      url: "/sprints",
+      data: message,
+      dataType: "JSON"
+    }).success(function(data){
+      debugger
+      graphs.setGraphData(graph_info, data)
+    })
   }
 
 }

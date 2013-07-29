@@ -16,4 +16,5 @@
 //= require devise
 //= require_tree .
 //= require jquery.lightbox_me.js
-
+//= require highcharts/highcharts.src.js
+//= require highcharts/highcharts-more.src.js

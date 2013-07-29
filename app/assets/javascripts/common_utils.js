@@ -62,10 +62,55 @@ commonUtils = {
       new_date.setSeconds(new_seconds) ;
       return new_date ;
     },
+    
+    addDaysAndCreateNewDate: function(original_date_object, days_to_add){
+      original_seconds = original_date_object.getSeconds() ;
+      new_seconds = original_seconds + (days_to_add * 24 * 60 * 60) ;
+      new_date = commonUtils.timeFunctions.cloneDate(original_date_object) ;
+      new_date.setSeconds(new_seconds) ;
+      return new_date ;
+    },
   
     cloneDate: function(date){
       new_date = new Date(date.getTime()) ;
       return new_date ;
+    },
+    
+    militaryHourToStandardHour: function(number){
+      if (typeof number != "undefined" && typeof number == "number"){
+        if (number >= 13 && number <= 24){
+          var time = number - 12
+          var time_hash = {"time": time, "type": "pm"}
+        }
+        else if (number >= 12 && number < 13){
+          var time_hash = {"time": number, "type": "pm"}
+        }
+        else if (number >= 0 && number <= 24){
+          var time_hash = {"time": number, "type": "am"}     
+        }
+        return time_hash 
+      }
+      else { return 'Args Error: requires a number between 0 and 24'}
+    },
+    
+    convertToHHMM: function (info) {
+      var hrs = parseInt(Number(info));
+      var min = Math.round((Number(info)-hrs) * 60);
+      return hrs + ':' + commonUtils.leadingZero(min,2);
+    },
+    
+    decimalMilitaryToStandardTimeFormat: function(number,with_type){
+      if (typeof number != "undefined" && typeof number == "number" && number >= 0 && number <= 24){
+        var standard_time_decimal_hash = commonUtils.timeFunctions.militaryHourToStandardHour(number) 
+        if (typeof with_type == "undefined" || with_type != true){
+          var time_string = commonUtils.timeFunctions.convertToHHMM(standard_time_decimal_hash["time"]) + standard_time_decimal_hash["type"]
+        }
+        else{
+          var time_string = commonUtils.timeFunctions.convertToHHMM(standard_time_decimal_hash["time"])      
+        }
+        return time_string
+      }
+      else { return 'Args Error: requires a number between 0 and 24'}
     }
   
   },
@@ -101,7 +146,12 @@ commonUtils = {
     var type = (type == 'notice') ? 'success' : type ;
     var html = '<div class="alert alert-' + type + '"><a class="close" data-dismiss="alert">x</a>' + message + '</div>'
     $('div.navbar').after(html) ;
+  },
+  
+  leadingZero: function(num, size) {
+    var s = num+"";
+    while (s.length < size) s = "0" + s;
+    return s;
   }
-  
-  
+   
 }

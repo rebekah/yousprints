@@ -1,6 +1,9 @@
+require 'time_helper'
 class Sprint
   
   include Mongoid::Document
+  include Mongoid::Timestamps
+  
   
   field :administration_start, type: Time
   field :administration_end, type: Time
@@ -26,7 +29,44 @@ class Sprint
     end
   end
   
+  def self.getSprintsInDateRange(date_range)
+    end_date = today = Date.today
+    case date_range
+    when "this_week"
+      start_date = today.beginning_of_week
+    when "this_month"
+      start_date = today.beginning_of_month  
+    when "last_week"
+      end_date = today.beginning_of_week - 1.day 
+      start_date = end_date.beginning_of_week
+    when "last_month"
+      end_date = today.beginning_of_month - 1.day 
+      start_date = end_date.beginning_of_month
+    end
+    Sprint.sprint_graph_data(start_date,end_date)   
+  end
+  
+  def get_military_decimal_time
+    time = Time.parse(created_at.to_s)
+    hour = time.hour
+    decimal_minute = (time.min.to_f / 60 )
+    hour + decimal_minute
+  end
+
   private
+  
+  def self.sprint_graph_data(start_date,end_date)
+    num_days = TimeHelper.difference_in_days(start_date, end_date) + 1
+    sprint_graph_info = []
+    num_days.times do |i|
+      this_day = start_date + i.days 
+      this_label = this_day.strftime('%b %-d')
+      sprints = Sprint.where(created_at: this_day.beginning_of_day..this_day.end_of_day)
+      sprints.map {|sprint| {time: sprint.get_military_decimal_time, percentage_complete: @percentage_complete, focus_intensity: @focus_intensity, focus_consistency: @focus_contsistency, interruptions: @interuptions } }
+      sprint_graph_info.push({sprints: sprints, date: this_day, date_label: this_label}) 
+    end
+    sprint_graph_info
+  end
 
   def create_sub_processes(query_string, sub_process) 
     sibling_level = sub_process["position"].split('_').pop()
@@ -40,10 +80,4 @@ class Sprint
   end
   
 end
-
-  #interuptions int
-  #off_focus int
-  #secondary feature - pause array ex.[start_pause_time, end_pause_time, start_pause_time, end_pause_time]
-  #focus_intensity_score float
-  #focus_distractibility_score float
 

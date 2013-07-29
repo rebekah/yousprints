@@ -1,4 +1,18 @@
 class SprintsController < ApplicationController
+
+  def index
+    respond_to do |format|
+      format.html do
+        render 'index'
+      end
+      format.json do 
+        if ! params[:date_range].nil?
+          sprints_info = Sprint.getSprintsInDateRange(params[:date_range])
+        end
+        render :json => sprints_info
+      end
+    end
+  end
   
   def new
     @sprint = Sprint.new
