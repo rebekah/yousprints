@@ -171,7 +171,7 @@ describe('common utility functions', function(){
   
   })
   
-  describe ('commonUtils.timeFunctions.addMinutesAndCreateNewDate', function(){
+  describe('commonUtils.timeFunctions.addMinutesAndCreateNewDate', function(){
     var date = new Date ;
     var later_date = commonUtils.timeFunctions.addMinutesAndCreateNewDate(date,10) ;
     difference = commonUtils.differenceInMinutes(date,later_date) ;
@@ -203,6 +203,42 @@ describe('common utility functions', function(){
     it('will create a new error message', function(){
       commonUtils.flashMessage('error','This is a flash error.') ;
       expect($('div.alert-error').length).toEqual(1) ;  
+    })
+    
+  })
+  
+  describe('commonUtils.timeFunctions.getDateFromStringYYYYdashMMdashDD', function(){
+  
+    describe("for the date '2013-01-01'", function(){
+      var date = commonUtils.timeFunctions.getDateFromStringYYYYdashMMdashDD("2013-01-01")
+      it("will return a Date object that has a day value of 1", function(){
+        day = date.getDate()
+        expect(day).toEqual(1)
+      })
+      it("will return a Date object that has a month value of 0", function(){
+        month = date.getMonth()
+        expect(month).toEqual(0)
+      })
+      it("will return a Date object that has a year value of 2013", function(){
+        year = date.getFullYear()
+        expect(year).toEqual(2013)
+      })
+    })
+    
+    describe("for the date '2013-12-31'", function(){
+       var date = commonUtils.timeFunctions.getDateFromStringYYYYdashMMdashDD("2013-12-31")
+      it("will return a Date object that has a day value of 31", function(){
+        day = date.getDate()
+        expect(day).toEqual(31)
+      })
+      it("will return a Date object that has a month value of 11", function(){
+        month = date.getMonth()
+        expect(month).toEqual(11)
+      })
+      it("will return a Date object that has a year value of 2013", function(){
+        year = date.getFullYear()
+        expect(year).toEqual(2013)
+      })
     })
     
   })

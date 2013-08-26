@@ -111,7 +111,15 @@ commonUtils = {
         return time_string
       }
       else { return 'Args Error: requires a number between 0 and 24'}
+    },
+    
+    getDateFromStringYYYYdashMMdashDD: function(date_string){
+     year = date_string.substr(0,4)
+     month = date_string.substr(5,2)
+     day = date_string.substr(8,2)
+     return new Date(year, month-1, day)        
     }
+  
   
   },
   
