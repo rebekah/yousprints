@@ -131,5 +131,18 @@ describe Sprint do
     end 
   
   end
+  
+  describe "sprint_graph_date" do
+    before do
+      sprint1 = Sprint.create
+      sprint1.created_at = sprint1.created_at - 2.days
+      Sprint.create
+    end
+    
+    it "should return the proper hash" do
+      sprints = Sprint.getSprintsInDateRange("this_week")
+      sprints.should_not be_nil
+    end
+  end
    
 end

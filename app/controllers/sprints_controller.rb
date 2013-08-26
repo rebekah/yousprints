@@ -3,6 +3,7 @@ class SprintsController < ApplicationController
   def index
     respond_to do |format|
       format.html do
+        @graph_data = Sprint.getSprintsInDateRange("this_week")
         render 'index'
       end
       format.json do 

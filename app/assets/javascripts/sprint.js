@@ -48,7 +48,7 @@ ajax = {
       $('form#assess_sprint').submit() ;
   },
   
-  getSprints: function(args){ 
+  getGraphData: function(args){ 
     var message = {}
     if ( typeof args != "undefined" && typeof args["date_range"] != "undefined") { message["date_range"] = args["date_range"]}
     $.ajax({
@@ -57,8 +57,10 @@ ajax = {
       data: message,
       dataType: "JSON"
     }).success(function(data){
-      debugger
-      graphs.setGraphData(graph_info, data)
+      graph_info = data
+      if(typeof args["call_back_function"] != "undefined"){
+        args["call_back_function"]()
+      }
     })
   }
 
