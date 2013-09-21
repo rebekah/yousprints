@@ -62,13 +62,13 @@ describe "landing pages spec" do
 
   describe "with a user that has a daily note for today" do
     before do 
-      @user.notes << Note.new
-      @user.notes.last.note_type = NoteType.where(name: 'daily_notes')[0]
+      note_type = NoteType.where(name: 'daily_notes')[0]    
+      @user.notes << Note.new(note_type: note_type)
       @user.save
       visit root_path
     end
-    it 'should make an update form rather than a create form', :focus do
-      should have_selector('form#daily_notes input[type = "hidden"][value = "put"]')
+    it 'should make an update form rather than a create form' do
+      should have_selector('form#daily_notes input[type="hidden"][value="put"]')
     end
   end
   

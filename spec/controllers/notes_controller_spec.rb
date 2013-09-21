@@ -10,7 +10,7 @@ describe NotesController do
     
     it 'when recieve a properly formatted post request, it will create a new Note object' do 
       controller.stub(:current_user) { @user }
-      expect {post :create, {format: 'json', note: { content: 'foobar'}}}.to change{@user.notes.count}.by(1)
+      expect {post :create, {format: 'json', note: { content: 'foobar'}}}.to change{@user.notes.length}.by(1)
     end
     
     it 'when recieve a properly formatted post request, it will create a new Note object of type daily_notes', :focus do 

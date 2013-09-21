@@ -41,6 +41,12 @@ class User
   has_many :sprints
   has_many :notes
   
-  attr_accessible :notes, :email, :password
+  attr_accessible :email, :password
+  
+    
+  def latest_daily_note
+    nt_id = NoteType.where(name: 'daily_notes').first.id
+    notes.where(note_type_id: nt_id).last
+  end
   
 end

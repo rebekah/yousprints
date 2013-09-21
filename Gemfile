@@ -4,60 +4,58 @@ group :production do
   ruby '2.0.0'
 end
 
-
-gem 'rails'
-gem 'thin'
+gem 'rails', '3.2.13'
+gem 'thin', '1.5.1'
 #gem 'capistrano'
 #gem 'rvm-capistrano'
-gem 'bundler'
-gem 'jquery-rails'
-gem 'mongoid', '~> 3.0.0'
-gem 'devise'
-gem 'devise_invitable'
-gem 'devise-encryptable'
-gem 'cancan'
-gem 'bootstrap-sass-rails'
-gem 'simple_form'
-gem 'tabulous'
-gem 'mini_magick'
-gem 'ipaddress'
-gem 'rest-client'
+gem 'jquery-rails', '2.2.1'
+gem 'mongoid', '3.0.23'
+gem 'devise', '2.2.4'
+gem 'devise_invitable', '1.1.8'
+gem 'devise-encryptable', '0.1.2'
+gem 'cancan', '1.6.10'
+gem 'bootstrap-sass-rails', '2.3.2.0'
+gem 'simple_form', '2.1.0'
+gem 'tabulous', '2.0.0'
+gem 'mini_magick', '3.6.0'
+gem 'ipaddress', '0.8.0'
+gem 'rest-client', '1.6.7'
 
 group :assets do
-  gem 'sass-rails'
-  gem 'coffee-rails'
-  gem 'uglifier'
+  gem 'sass-rails', '3.2.6'
+  gem 'coffee-rails', '3.2.2'
+  gem 'uglifier', '2.1.1'
 end
 
 group :test do
-  gem 'action_mailer_cache_delivery'
-  gem 'database_cleaner'
-  gem 'mongoid-rspec'
-  gem 'email_spec'
-  gem 'capybara'
-  gem 'selenium-webdriver'
-  gem 'launchy'
-  gem 'simplecov', require: false
-  gem 'spork'
+  gem 'action_mailer_cache_delivery', '0.3.5'
+  gem 'database_cleaner', '1.0.1'
+  gem 'mongoid-rspec', '1.8.2'
+  gem 'email_spec', '1.4.0'
+  gem 'capybara', '2.0.3'
+  gem "selenium-webdriver", "2.35.1"
+  gem 'launchy', '2.3.0'
+  gem 'simplecov', '0.7.1', require: false
+  gem 'spork', '0.9.2'
+  gem 'rubyzip', '< 1.0.0'
 end
 
 group :development do
-  gem 'mailtrap'
-  gem 'traceroute'
-  gem 'railroady'
-  gem 'interactive_editor'
-  gem 'wirble'
+  #gem 'mailtrap', '2.5.4'
+  gem 'traceroute', '0.3.0'
+  gem 'railroady', '1.1.0'
+  gem 'interactive_editor', '0.0.10'
+  gem 'wirble', '0.1.3'
 end
 
 group :development, :test do
   #gem 'debugger'
-  gem 'jasmine-rails'
-  gem 'byebug'
-  gem 'awesome_print'
-  gem 'rspec-mocks'
-  gem 'rspec-rails'
-  gem 'factory_girl_rails'
-  gem 'faker'
-  gem 'fabrication'
+  gem 'jasmine-rails', '0.4.5'
+  gem 'byebug', '1.3.0'
+  gem 'awesome_print', '1.1.0'
+  gem 'rspec-mocks', '2.13.1'
+  gem 'rspec-rails', '2.13.0'
+  gem 'factory_girl_rails', '4.2.1'
+  gem 'faker', '1.1.2'
+  gem 'fabrication', '2.7.1'
 end
-

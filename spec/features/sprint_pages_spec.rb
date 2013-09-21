@@ -11,7 +11,7 @@ describe "creating a new sprint" do
   
   describe "the 'New Sprint' page before initiating the sprint" do
   
-    it "should have a place for brain dumping" do
+    xit "should have a place for brain dumping" do
       should have_content('Sprint Brain Dump')
       should have_selector('textarea#note_content');
     end
@@ -32,7 +32,7 @@ describe "creating a new sprint" do
       should have_selector('textarea#sprint_intention')
     end
     
-    it "will not have a visible note section for sprint brain dumps" do
+    xit "will not have a visible note section for sprint brain dumps" do
       should_not have_selector('form#sprint_notes.display_none')
       should have_selector('form#sprint_notes')
     end
@@ -94,7 +94,7 @@ describe "creating a new sprint" do
       should have_selector('form#sprint_reminder_notes')
     end
     
-    it "will not have a visible note section for sprint brain dumps", :js do
+    xit "will not have a visible note section for sprint brain dumps", :js do
        should have_selector('form#sprint_notes.display_none')
     end
     

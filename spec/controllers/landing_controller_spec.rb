@@ -27,7 +27,10 @@ describe LandingController do
     context "when there is a daily note record created today" do
     
       before do
-        @user.notes << Note.new
+        note_type = NoteType.where(name: 'daily_notes')[0]
+        note = Note.new(note_type: note_type)
+        @user.notes << note
+        @user.save
       end
     
       it "will assign a new note" do

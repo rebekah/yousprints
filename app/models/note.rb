@@ -10,7 +10,8 @@ class Note
   belongs_to :sprint
   belongs_to :note_type
   
-  attr_accessible :user, :sprint, :note_type
+  attr_accessible :user, :sprint, :note_type, :content
   
   validates :note_type, presence: true
+  
 end
