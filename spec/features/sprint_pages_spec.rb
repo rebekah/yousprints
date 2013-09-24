@@ -2,14 +2,14 @@ require 'spec_helper'
 
 describe "creating a new sprint" do
   
-  subject {page}
-  
-  before do
-    @user = login_test_user
-    visit new_sprint_path
-  end
+  subject {page} 
   
   describe "the 'New Sprint' page before initiating the sprint" do
+     before do
+      page.driver.browser.switch_to.alert.accept rescue Selenium::WebDriver::Error::NoAlertPresentError
+      @user = login_test_user
+      visit new_sprint_path
+    end
     
     it "should have a link to home in the top nav" do
       should have_selector('div.navbar div.pull-right a:contains("Home")')
@@ -48,11 +48,15 @@ describe "creating a new sprint" do
   end
   
   describe "after the sprint is initiated" do
-    before do
+    before do 
+      page.driver.browser.switch_to.alert.accept rescue Selenium::WebDriver::Error::NoAlertPresentError
+      @user = login_test_user
+      visit new_sprint_path
       page.execute_script("$('input[value=\"Create Sprint\"]').trigger('click')")
     end
     
-    it "will have a ujs enabled form with the id 'during_sprint'", :js, :focus do
+    
+    it "will have a ujs enabled form with the id 'during_sprint'", :js do
       should have_selector('form#during_sprint[data-remote="true"]')
     end
     
@@ -106,6 +110,9 @@ describe "creating a new sprint" do
   
   describe "after clicking the '+ Process' button the first time" do
     before do 
+      page.driver.browser.switch_to.alert.accept rescue Selenium::WebDriver::Error::NoAlertPresentError
+      @user = login_test_user
+      visit new_sprint_path
       page.execute_script("$('#add_process').trigger('click')")
     end
     
