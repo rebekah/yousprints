@@ -15,6 +15,10 @@ describe 'logging in' do
       should have_selector('form#new_user')
     end
     
+    it "should not have a link to home in the top nav", :focus do
+      should_not have_selector('div.navbar div.pull-right a:contains("Home")')
+    end
+    
     context "when I log in" do
       before do
         user = create_test_user

@@ -22,6 +22,10 @@ describe "landing pages spec" do
       should have_selector('div')
     end
     
+    it "should not have a link to home in the top nav", :focus do
+      should_not have_selector('div.navbar div.pull-right a:contains("Home")')
+    end
+    
     context 'clicking the Start Sprint link' do
       
       before do

@@ -10,6 +10,10 @@ describe "creating a new sprint" do
   end
   
   describe "the 'New Sprint' page before initiating the sprint" do
+    
+    it "should have a link to home in the top nav" do
+      should have_selector('div.navbar div.pull-right a:contains("Home")')
+    end
   
     xit "should have a place for brain dumping" do
       should have_content('Sprint Brain Dump')

@@ -10,9 +10,12 @@
             <form accept-charset="UTF-8" action="/users/sign_in" id="new_user" method="post" novalidate="novalidate" style = "display:inline;"></form>
         <% end %>
         <% if current_user %>
-        <li><%= link_to 'Log Out', destroy_user_session_path, method: :delete %></li>
+          <% if controller_name != 'landing' %>
+            <li><%= link_to 'Home', root_path %></li>
+          <% end %>
+          <li><%= link_to 'Log Out', destroy_user_session_path, method: :delete %></li>
         <% else %>
-        <li><%= link_to 'Register', new_user_registration_path %></li>
+          <li><%= link_to 'Register', new_user_registration_path %></li>
         <% end %>
       </ul>
       </div>
