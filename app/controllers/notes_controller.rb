@@ -1,4 +1,9 @@
 class NotesController < ApplicationController
+
+  def index
+   note_type_id = NoteType.where(name: 'daily_notes').first.id
+   @notes = current_user.notes.where(note_type_id: note_type_id)
+  end
   
   def create
     note = Note.new(params[:note])

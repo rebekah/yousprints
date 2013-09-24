@@ -10,6 +10,9 @@
             <form accept-charset="UTF-8" action="/users/sign_in" id="new_user" method="post" novalidate="novalidate" style = "display:inline;"></form>
         <% end %>
         <% if current_user %>
+          <% if controller_name != 'landing' && action_name != 'index' %>
+            <li><%= link_to 'Daily Notes', notes_path %></li> 
+          <% end %>
           <% if controller_name != 'landing' %>
             <li><%= link_to 'Home', root_path %></li>
           <% end %>
