@@ -1,5 +1,10 @@
 <h3 style = 'text-align:center'> Sprints </h3>
-<div id="graph_percentage_complete" style="height: 350px; width: 400px;"></div>
+</div>
+<div id="graph_percentage_complete" style="height: 350px; width: 400px;display:inline-block;"></div>
+<div id="graph_duration" style="height: 350px; width: 400px;display:inline-block;"></div>
+<div></div>
+<div id="graph_focus_intensity" style="height: 350px; width: 400px;display:inline-block;"></div>
+<div id="graph_happiness" style="height: 350px; width: 400px;display:inline-block;"></div>
 
 <script>
 
@@ -17,54 +22,8 @@
   
   $(function () {
   
-    graphs.processGraphData()
-
-   //$('#container3').highcharts({
-   //    chart: {
-   //        type: 'bubble',
-   //        zoomType: 'xy',
-   //    },
-   //    tooltip: {
-   //      formatter: function() {
-   //        return '<b>'+ this.point.z +'% complete</b> (' + commonUtils.timeFunctions.decimalMilitaryToStandardTimeFormat(this.y) + ' on ' + this.x + ')'
-   //      }
-   //    },
-   //      title: {
-   //      text: 'Percentage Complete'
-   //    },
-   //    xAxis: {
-   //      title: {
-   //          text: ''
-   //      },
-   //      categories: ['Jan 1','Jan 2','Jan 3', 'Jan 4','Jan 5','Jan 6','Jan 7', 'Jan 8']
-   //    },
-   //    yAxis: {
-   //      title: {
-   //          text: 'y_axis_label'
-   //      },
-   //      gridLineWidth: 0,
-   //      tickInterval: 1,
-   //      min: 0,
-   //      max: 24
-   //    },
-   //    legend: {
-   //       enabled: false
-   //    },
-   //    series: [{
-   //        data: [[0,9.5,79],[1,15,60],[1,8,58],[2,19,56],[3,11,73],[6,15,89]]
-   //    } ]
-   //
-   //});
-    
-       $('tspan:contains("y_axis_label")').css('display','none') 
-
-       $('text[x]').each(function(){
-         var text = $(this).text()
-         if (commonUtils.isInt(+text)){
-           var time_string = commonUtils.timeFunctions.decimalMilitaryToStandardTimeFormat(+text)
-           $(this).text(time_string)
-         } 
-       })
+     graphs.processGraphData()
+     
   });
 
 </script>

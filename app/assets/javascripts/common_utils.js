@@ -102,7 +102,8 @@ commonUtils = {
     decimalMilitaryToStandardTimeFormat: function(number,with_type){
       if (typeof number != "undefined" && typeof number == "number" && number >= 0 && number <= 24){
         var standard_time_decimal_hash = commonUtils.timeFunctions.militaryHourToStandardHour(number) 
-        if (typeof with_type == "undefined" || with_type != true){
+        if (typeof with_type == "undefined" || with_type == true){
+          debugger
           var time_string = commonUtils.timeFunctions.convertToHHMM(standard_time_decimal_hash["time"]) + standard_time_decimal_hash["type"]
         }
         else{

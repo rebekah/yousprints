@@ -9,8 +9,8 @@ class SprintsController < ApplicationController
       format.json do 
         if ! params[:date_range].nil?
           sprints_info = Sprint.getSprintsInDateRange(params[:date_range])
+          render :json => sprints_info
         end
-        render :json => sprints_info
       end
     end
   end

@@ -1,6 +1,9 @@
 graphs = {
 
  monthNamesAbbr: [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ],
+ data_types: ["percentage_complete","duration","focus_intensity","happiness"],
+ data_type_label: {"percentage_complete": "Percentage Complete","focus_intensity": "Intensity","duration": "Duration","happiness": "Happiness"},
+
   
   processGraphData: function(){
 
@@ -9,46 +12,67 @@ graphs = {
     }
     
     function create_graphs(){
-      var processed_graph_data = {"date_labels": graphs.getDateLabels(graph_info), "percentage_data_points": graphs.getPercentageDataPoints(graph_info), "intensity_data_points": graphs.getIntensityDataPoints(graph_info), "consistency_data_points": graphs.getConsistencyDataPoints(graph_info), "duration_data_points": graphs.getDurationDataPoints(graph_info)}
-      $('#graph_percentage_complete').highcharts({
-         chart: {
-             type: 'bubble',
-             zoomType: 'xy',
-         },
-         tooltip: {
-           formatter: function() {
-             return '<b>'+ this.point.z +'% complete</b> (' + commonUtils.timeFunctions.decimalMilitaryToStandardTimeFormat(this.y) + ' on ' + this.x + ')'
-           }
-         },
-           title: {
-           text: 'Percentage Complete'
-         },
-         xAxis: {
-           title: {
-               text: ''
-           },
-           categories: processed_graph_data["date_labels"]
-         },
-         yAxis: {
-           title: {
-               text: 'y_axis_label'
-           },
-           gridLineWidth: 0,
-           tickInterval: 1,
-           min: 0,
-           max: 24
-         },
-         legend: {
-            enabled: false
-         },
-         series: [{
-             data: [[1,9.5,10],[2,15,60],[2,8,58],[3,19,56],[4,11,73],[7,15,100]]
-         } ]
-      });
+      var processed_graph_data = {"date_labels": graphs.getDateLabels(graph_info), "data_points": graphs.getGraphDataPoints(graph_info)}
+
+      for(i = 0; i < graphs.data_types.length; i++){
+       $('#graph_'+ graphs.data_types[i] + '').highcharts({
+          chart: {
+              type: 'bubble',
+              zoomType: 'xy',
+          },
+          tooltip: {
+            formatter: function(tooltip) {
+              data_descriptor = ($(tooltip["chart"]["container"]).parent('div').attr('id') == "graph_percentage_complete") ? '% complete</b> (' : '</b> ('
+              return '<b>'+ this.point.z + data_descriptor + commonUtils.timeFunctions.decimalMilitaryToStandardTimeFormat(this.y) + ' on ' + this.x + ')'
+            }
+          },
+            title: {
+            text: graphs.data_type_label[graphs.data_types[i]],
+            style: {
+              color: "#778877"
+            }
+          },
+          xAxis: {
+            title: {
+                text: ''
+            },
+            categories: processed_graph_data["date_labels"]
+          },
+          yAxis: {
+            title: {
+                text: 'y_axis_label'
+            },
+            gridLineWidth: 0,
+            tickInterval: 1,
+            min: 0,
+            max: 24
+          },
+          legend: {
+             enabled: false
+          },
+          series: [{
+              data: processed_graph_data["data_points"][graphs.data_types[i]],
+              color: "#99bb99"
+          } ]
+       });
+       
+       
+       $('tspan:contains("y_axis_label")').css('display','none') 
+  
+       $('text[x]').each(function(){
+         var text = $(this).text()
+         if (commonUtils.isInt(+text)){
+           var time_string = commonUtils.timeFunctions.decimalMilitaryToStandardTimeFormat(+text, false)
+           $(this).text(time_string)
+         } 
+       })
+
+      }
+      
     }
        
   },
-  
+   
   getDateLabels: function(sprint_graph_data){
     var date_labels = sprint_graph_data.map(function(value, index){return value["date_label"]})
     var first_date_string = sprint_graph_data[0]["date"]
@@ -69,21 +93,20 @@ graphs = {
     return month_abbr + " " + day_string
   },
   
-  getPercentageDataPoints: function(data){
-    var percentage_data_points = []
-     for(i = 0; i < data.length; i++){
-       for(s = 0; s < data[i]["sprints"].length; s++){
-         if (typeof data[i]["sprints"][s]["time"] != "undefined" && typeof data[i]["sprints"][s]["percentage_complete"] != "undefined") {
-           percentage_data_points.push([i+1,data[i]["sprints"][s]["time"],data[i]["sprints"][s]["percentage_complete"]])
-         }
-       }
-     }
-    return percentage_data_points ;
+  getGraphDataPoints: function(data){
+    data_points = {}
+    for(p = 0; p < graphs.data_types.length; p++){
+      eval(graphs.data_types[p] + "_data_points = []") ;
+      for(i = 0; i < data.length; i++){
+        for(s = 0; s < data[i]["sprints"].length; s++){
+          if (data[i]["sprints"][s]["time"] != undefined && data[i]["sprints"][s][graphs.data_types[p]] != undefined) {
+            eval('' + graphs.data_types[p] + '_data_points.push([i+1,data[i]["sprints"][s]["time"],data[i]["sprints"][s][graphs.data_types[p]]])')
+          }
+        }
+      }
+      data_points[graphs.data_types[p]]=eval('' + graphs.data_types[p] + '_data_points')
+    }
+    return data_points ;
   },
 
-  getIntensityDataPoints: function(data){},
-  
-  getConsistencyDataPoints: function(data){},
-  
-  getDurationDataPoints: function(data){}
 }

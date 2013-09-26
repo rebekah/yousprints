@@ -47,7 +47,7 @@ class Sprint
   end
   
   def get_military_decimal_time
-    time = Time.parse(created_at.to_s)
+    time = Time.parse(created_at.in_time_zone("Pacific Time (US & Canada)").to_s)
     hour = time.hour
     decimal_minute = (time.min.to_f / 60 ).round(2)
     hour + decimal_minute
@@ -62,7 +62,7 @@ class Sprint
       this_day = start_date + i.days 
       this_label = this_day.strftime('%b %-d')
       sprints = Sprint.where(created_at: this_day.beginning_of_day..this_day.end_of_day)
-      munged_sprint_data = sprints.map {|sprint| {time: sprint.get_military_decimal_time, percentage_complete: @percentage_complete, focus_intensity: @focus_intensity, focus_consistency: @focus_contsistency, interruptions: @interuptions } }
+      munged_sprint_data = sprints.map {|sprint| {time: sprint.get_military_decimal_time, percentage_complete: sprint.percentage_complete, focus_intensity: sprint.focus_intensity, happiness: sprint.happiness, interruptions: sprint.interruptions, duration: sprint.duration } }
       sprint_graph_info.push({sprints: munged_sprint_data, date: this_day, date_label: this_label}) 
     end
     sprint_graph_info

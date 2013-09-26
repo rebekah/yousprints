@@ -28,8 +28,8 @@ describe('graph data munging functions', function(){
   })
   
   it('will create the correct data points for the percentage map', function(){
-    var percentage_data_point = graphs.getPercentageDataPoints(sprint_graph_data)
-    expect(percentage_data_point).toEqual([[1,2.0, 20],[1,3.5,30],[2,6,99],[2,7,70],[2,15,80]])
+    var percentage_data_point = graphs.getGraphDataPoints(sprint_graph_data)
+    expect(percentage_data_point["percentage_complete"]).toEqual([[1,2.0, 20],[1,3.5,30],[2,6,99],[2,7,70],[2,15,80]])
   })
 
 
