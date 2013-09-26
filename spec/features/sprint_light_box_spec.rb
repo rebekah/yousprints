@@ -92,10 +92,9 @@ describe "sprint light box behavior" do
     
       before do
         page.execute_script("$('form#assess_sprint input.button').trigger('click') ;")
-        page.driver.browser.switch_to.alert.accept rescue Selenium::WebDriver::Error::NoAlertPresentError
       end
       
-      xit 'reason for pending: Strange error caused by the onBeforeUnload behavior: Works fine, doesn\'t work in test. Original description: A flash message will display', :js do
+      it 'A flash message will display', :js do
         should have_content('Your sprint has been successfully submitted')
       end
       

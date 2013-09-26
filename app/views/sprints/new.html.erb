@@ -18,6 +18,7 @@
 
   $(function(){
     sprint = new Sprint ;
+    confirm_unload = true
     
     $('form#sprint_reminder_notes').addClass('display_none') ;
     
@@ -81,12 +82,14 @@
     })
     
     $('form#assess_sprint input.button').click(function(e){
+      confirm_unload = false
       e.preventDefault() ;
       sprints.atSprintCompletion(sprint) ;
     })
     
     window.onbeforeunload = function(){
-      return 'The sprint will be stop and it will not be able to be continued later if you navigate away from this page.';
+      if(confirm_unload)
+       return 'The sprint will be stop and it will not be able to be continued later if you navigate away from this page.';
     };
     
   })
