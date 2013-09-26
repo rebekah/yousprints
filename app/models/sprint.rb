@@ -8,7 +8,7 @@ class Sprint
   field :administration_start, type: Time
   field :administration_end, type: Time
   field :focus_intensity, type: Integer
-  field :focus_consistency, type: Integer
+  field :happiness, type: Integer
   field :duration, type: Integer
   field :intention, type: String
   field :sprint_start, type: Time
@@ -20,7 +20,7 @@ class Sprint
   
   belongs_to :user
   embeds_many :sub_processes
-  attr_accessible :sub_processes, :notes, :duration, :intention, :interruptions, :loss_of_focus_count, :focus_consistency, :focus_intensity, :percentage_complete
+  attr_accessible :sub_processes, :notes, :duration, :intention, :interruptions, :loss_of_focus_count, :happiness, :focus_intensity, :percentage_complete
   has_many :notes
   
   def create_sub_processes_from_hash(sub_processes_hash)

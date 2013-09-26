@@ -81,9 +81,9 @@ describe "sprint light box behavior" do
         should have_selector('form#assess_sprint input[type="radio"][name="sprint[focus_intensity]"]')
       end
       
-      it "should have a group of radio buttons for 'Consistency of Focus'", :js do
-        should have_selector('form#assess_sprint label:contains("Consistency of Focus")') 
-        should have_selector('form#assess_sprint input[type="radio"][name="sprint[focus_consistency]"]')        
+      it "should have a group of radio buttons for assessing 'Happiness' level", :js do
+        should have_selector('form#assess_sprint label:contains("Happiness")') 
+        should have_selector('form#assess_sprint input[type="radio"][name="sprint[happiness]"]')        
       end
       
     end
