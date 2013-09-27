@@ -20,6 +20,7 @@ gem 'tabulous', '2.0.0'
 gem 'mini_magick', '3.6.0'
 gem 'ipaddress', '0.8.0'
 gem 'rest-client', '1.6.7'
+gem 'jquery-datatables-rails', git: 'git://github.com/rweng/jquery-datatables-rails.git'
 
 group :assets do
   gem 'sass-rails', '3.2.6'

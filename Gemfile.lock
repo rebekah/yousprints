@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/rweng/jquery-datatables-rails.git
+  revision: 494f752b8eb8350f33841c822a67d014c869219f
+  specs:
+    jquery-datatables-rails (1.11.2)
+      jquery-rails
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -249,6 +256,7 @@ DEPENDENCIES
   interactive_editor (= 0.0.10)
   ipaddress (= 0.8.0)
   jasmine-rails (= 0.4.5)
+  jquery-datatables-rails!
   jquery-rails (= 2.2.1)
   launchy (= 2.3.0)
   mini_magick (= 3.6.0)
