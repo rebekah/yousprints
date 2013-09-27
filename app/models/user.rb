@@ -25,10 +25,10 @@ class User
   field :last_sign_in_ip,    :type => String
   
   ## Confirmable
- field :confirmation_token,   :type => String
- field :confirmed_at,         :type => Time
- field :confirmation_sent_at, :type => Time
- field :unconfirmed_email,    :type => String # Only if using reconfirmable
+  field :confirmation_token,   :type => String
+  field :confirmed_at,         :type => Time
+  field :confirmation_sent_at, :type => Time
+  field :unconfirmed_email,    :type => String # Only if using reconfirmable
 
   ## Lockable
   # field :failed_attempts, :type => Integer, :default => 0 # Only if lock strategy is :failed_attempts
@@ -37,11 +37,12 @@ class User
 
   ## Token authenticatable
   # field :authentication_token, :type => String
+  field :time_zone, :type => String, :default => "Pacific Time (US & Canada)"
   
   has_many :sprints
   has_many :notes
   
-  attr_accessible :email, :password
+  attr_accessible :email, :password, :time_zone
   
     
   def latest_daily_note

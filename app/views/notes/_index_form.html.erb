@@ -1,7 +1,7 @@
 <table class = "table table-condensed table-striped table-bordered" id = "daily_notes">
   <thead>
     <tr>
-      <th>
+      <th style = "width: 100px;">
         Date
       </th>
       <th>
@@ -13,7 +13,7 @@
     <% @notes.each do |note| %>
       <tr>
         <td>
-          <%= note.created_at %>
+          <%= note.created_at.in_time_zone(@time_zone).to_date.strftime("%b %d, %Y") %>
         </td>
         <td>
           <%= note.content %>

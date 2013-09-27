@@ -47,7 +47,8 @@ class Sprint
   end
   
   def get_military_decimal_time
-    time = Time.parse(created_at.in_time_zone("Pacific Time (US & Canada)").to_s)
+    time_zone = User.find(user_id).time_zone
+    time = Time.parse(created_at.in_time_zone(time_zone).to_s)
     hour = time.hour
     decimal_minute = (time.min.to_f / 60 ).round(2)
     hour + decimal_minute

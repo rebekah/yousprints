@@ -2,6 +2,7 @@ class NotesController < ApplicationController
 
   def index
    note_type_id = NoteType.where(name: 'daily_notes').first.id
+   @time_zone = !current_user.time_zone.nil? ? current_user.time_zone : "Pacific Time (US & Canada)"
    @notes = current_user.notes.where(note_type_id: note_type_id)
   end
   
