@@ -10,11 +10,17 @@
             <form accept-charset="UTF-8" action="/users/sign_in" id="new_user" method="post" novalidate="novalidate" style = "display:inline;"></form>
         <% end %>
         <% if current_user %>
-          <% unless (controller_name == 'notes' && action_name == 'index') %>
-            <li><%= link_to 'Daily Notes', notes_path %></li> 
-          <% end %>
           <% if controller_name != 'landing' %>
             <li><%= link_to 'Home', root_path %></li>
+          <% end %>
+          <% unless (controller_name == 'sprints' && action_name == 'index') %>
+            <li><%= link_to 'Graphs', sprints_path %></li> 
+          <% end %>
+          <% unless (controller_name == 'sprints' && action_name == 'new') %>
+            <li><%= link_to 'New Sprint', new_sprint_path %></li> 
+          <% end %>
+          <% unless (controller_name == 'notes' && action_name == 'index') %>
+            <li><%= link_to 'Daily Notes', notes_path %></li> 
           <% end %>
           <li><%= link_to 'Log Out', destroy_user_session_path, method: :delete %></li>
         <% else %>
