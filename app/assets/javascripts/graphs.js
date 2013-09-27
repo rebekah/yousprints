@@ -2,7 +2,7 @@ graphs = {
 
  monthNamesAbbr: [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ],
  data_types: ["percentage_complete","duration","focus_intensity","happiness"],
- data_type_label: {"percentage_complete": "Percentage Complete","focus_intensity": "Intensity","duration": "Duration","happiness": "Happiness"},
+ data_type_label: {"percentage_complete": "Percentage Complete","focus_intensity": "Intensity (on a scale of 1-10)","duration": "Duration","happiness": "Happiness (on a scale of 1-10)"},
 
   
   processGraphData: function(){
@@ -22,7 +22,18 @@ graphs = {
           },
           tooltip: {
             formatter: function(tooltip) {
-              data_descriptor = ($(tooltip["chart"]["container"]).parent('div').attr('id') == "graph_percentage_complete") ? '% complete</b> (' : '</b> ('
+              var graph_div_id = $(tooltip["chart"]["container"]).parent('div').attr('id')
+              switch(graph_div_id)
+              {
+              case "graph_percentage_complete":
+                var data_descriptor = '% complete</b> (' 
+                break;
+              case "graph_duration":
+                var data_descriptor = ' min.</b> ('
+                break;
+              default:
+                data_descriptor = '</b> ('
+              }
               return '<b>'+ this.point.z + data_descriptor + commonUtils.timeFunctions.decimalMilitaryToStandardTimeFormat(this.y) + ' on ' + this.x + ')'
             }
           },
