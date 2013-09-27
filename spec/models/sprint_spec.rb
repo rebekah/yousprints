@@ -133,14 +133,16 @@ describe Sprint do
   end
   
   describe "sprint_graph_date" do
-    before do
+    before do 
+      @user = login_test_user
       sprint1 = Sprint.create
       sprint1.created_at = sprint1.created_at - 2.days
-      Sprint.create
+      @user.sprints << sprint1
+      @user.sprints << Sprint.create
     end
     
     it "should return the proper hash" do
-      sprints = Sprint.getSprintsInDateRange("this_week")
+      sprints = Sprint.getSprintsInDateRange("this_week", @user.id)
       sprints.should_not be_nil
     end
   end

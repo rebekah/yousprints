@@ -3,12 +3,12 @@ class SprintsController < ApplicationController
   def index
     respond_to do |format|
       format.html do
-        @graph_data = Sprint.getSprintsInDateRange("this_week")
+        @graph_data = Sprint.getSprintsInDateRange("this_week", current_user.id)
         render 'index'
       end
       format.json do 
         if ! params[:date_range].nil?
-          sprints_info = Sprint.getSprintsInDateRange(params[:date_range])
+          sprints_info = Sprint.getSprintsInDateRange(params[:date_range], current_user.id)
           render :json => sprints_info
         end
       end

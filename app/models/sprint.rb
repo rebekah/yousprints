@@ -29,7 +29,7 @@ class Sprint
     end
   end
   
-  def self.getSprintsInDateRange(date_range)
+  def self.getSprintsInDateRange(date_range, user)
     end_date = today = Date.today
     case date_range
     when "this_week"
@@ -43,27 +43,36 @@ class Sprint
       end_date = today.beginning_of_month - 1.day 
       start_date = end_date.beginning_of_month
     end
-    Sprint.sprint_graph_data(start_date,end_date)   
+    Sprint.sprint_graph_data(start_date,end_date, user) 
   end
   
-  def get_military_decimal_time
-    time_zone = User.find(user_id).time_zone
-    time = Time.parse(created_at.in_time_zone(time_zone).to_s)
-    hour = time.hour
-    decimal_minute = (time.min.to_f / 60 ).round(2)
-    hour + decimal_minute
+  def get_local_military_time_from_UTC(user)
+    time = get_local_time(user)
+    get_military_decimal_time(time)
   end
 
   private
   
-  def self.sprint_graph_data(start_date,end_date)
+    
+  def get_local_time(user) 
+    time_zone = User.find(user).time_zone
+    time = Time.parse(created_at.in_time_zone(time_zone).to_s)
+  end
+  
+  def get_military_decimal_time(time)
+    hour = time.hour
+    decimal_minute = (time.min.to_f / 60 ).round(2)
+    hour + decimal_minute
+  end
+  
+  def self.sprint_graph_data(start_date,end_date, user)
     num_days = TimeHelper.difference_in_days(start_date, end_date) + 1
     sprint_graph_info = []
     num_days.times do |i|
       this_day = start_date + i.days 
       this_label = this_day.strftime('%b %-d')
-      sprints = Sprint.where(created_at: this_day.beginning_of_day..this_day.end_of_day)
-      munged_sprint_data = sprints.map {|sprint| {time: sprint.get_military_decimal_time, percentage_complete: sprint.percentage_complete, focus_intensity: sprint.focus_intensity, happiness: sprint.happiness, interruptions: sprint.interruptions, duration: sprint.duration } }
+      sprints = Sprint.where(user_id: user).where(created_at: this_day.beginning_of_day..this_day.end_of_day)
+      munged_sprint_data = sprints.map {|sprint| {time: sprint.get_local_military_time_from_UTC(user), percentage_complete: sprint.percentage_complete, focus_intensity: sprint.focus_intensity, happiness: sprint.happiness, interruptions: sprint.interruptions, duration: sprint.duration } }
       sprint_graph_info.push({sprints: munged_sprint_data, date: this_day, date_label: this_label}) 
     end
     sprint_graph_info
