@@ -18,10 +18,11 @@ ajax = {
   
   },
   
-  submitSubProcessData: function() {
+  submitMidSprintData: function() {
       var sub_processes = new subProcesses ;
       var sub_processes_json = sub_processes.extract_sub_processes() ;
-      var valuesToSubmit = {"sub_processes": sub_processes_json };
+      var reminder_notes = $("form#sprint_reminder_notes textarea").val()
+      var valuesToSubmit = {"sub_processes": sub_processes_json, "reminder_notes": reminder_notes };
       $.ajax({
           type: "PUT",
           url: "/sprints/" + sprint.id,
@@ -34,9 +35,6 @@ ajax = {
   },
 
   submitFinalSprintData: function(){
-      
-      // submit subprocess info
-      ajax.submitSubProcessData() ;
          
       // submit final duration end_time - pause_time - start_time  ;
       sprints.addInputElementsToDuringSprintForm() ;
@@ -130,6 +128,11 @@ sprints = {
   atSprintCompletion: function(sprint){
     sprints.removeFlashMessages() ;
     ajax.submitFinalSprintData(sprint) ;
+  },
+  
+  beforeAssessSprint: function(){        
+    // submit subprocess info and sprint_reminder notes
+    ajax.submitMidSprintData() ;
   },
   
   initiateLightBox: function(){
