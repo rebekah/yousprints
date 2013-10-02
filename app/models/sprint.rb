@@ -70,8 +70,10 @@ class Sprint
     sprint_graph_info = []
     num_days.times do |i|
       this_day = start_date + i.days 
+      beginning_of_day = DateTime.new(this_day.year,this_day.month,this_day.day,0,0,0,("-7")).utc 
+      end_of_day = DateTime.new(this_day.year,this_day.month,this_day.day,23,59,59,("-7")).utc   
       this_label = this_day.strftime('%b %-d')
-      sprints = Sprint.where(user_id: user).where(created_at: this_day.beginning_of_day..this_day.end_of_day)
+      sprints = Sprint.where(user_id: user).where(created_at: beginning_of_day..end_of_day)
       munged_sprint_data = sprints.map {|sprint| {time: sprint.get_local_military_time_from_UTC(user), percentage_complete: sprint.percentage_complete, focus_intensity: sprint.focus_intensity, happiness: sprint.happiness, interruptions: sprint.interruptions, duration: sprint.duration } }
       sprint_graph_info.push({sprints: munged_sprint_data, date: this_day, date_label: this_label}) 
     end
