@@ -22,6 +22,7 @@
           <% unless (controller_name == 'notes' && action_name == 'index') %>
             <li><%= link_to 'Daily Notes', notes_path %></li> 
           <% end %>
+          <li><%= link_to 'My Account', edit_user_registration_path %></li>
           <li><%= link_to 'Log Out', destroy_user_session_path, method: :delete %></li>
         <% else %>
           <li><%= link_to 'Register', new_user_registration_path %></li>
