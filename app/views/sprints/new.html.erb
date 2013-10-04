@@ -89,7 +89,7 @@
     })
     
     window.onbeforeunload = function(){
-      if(confirm_unload)
+      if(confirm_unload && sprint.duration != 0)
        return 'The sprint will be stop and it will not be able to be continued later if you navigate away from this page.';
     };
     
