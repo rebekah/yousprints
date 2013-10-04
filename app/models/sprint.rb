@@ -47,8 +47,8 @@ class Sprint
   end
   
   def get_local_military_time_from_UTC(user)
-    time = get_local_time(user)
-    get_military_decimal_time(time)
+    time_string = get_local_time(user)
+    get_military_decimal_time(time_string)
   end
 
   private
@@ -56,12 +56,15 @@ class Sprint
     
   def get_local_time(user) 
     time_zone = User.find(user).time_zone
-    time = Time.parse(created_at.in_time_zone(time_zone).to_s)
+    #Yes I am returning a string, I orginally had the below expression passed into Time.parse() but on Heroku, unlike my local environment, Time.parse converted my time zone specific time back to UTC zoned time.
+    time_string = created_at.in_time_zone(time_zone).to_s
   end
   
-  def get_military_decimal_time(time)
-    hour = time.hour
-    decimal_minute = (time.min.to_f / 60 ).round(2)
+  def get_military_decimal_time(time_string)
+    #So I just parsed hour and minute out of my string with a regex - the"[]" get's the first substring
+    hour = /\s(\d\d):/.match(time_string)[1].to_f
+    minute = /:(.*?):/.match(time_string)[1].to_f
+    decimal_minute = (minute / 60 ).round(2)
     hour + decimal_minute
   end
   
