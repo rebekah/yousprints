@@ -2,4 +2,7 @@
 
 $('form#daily_notes').attr('action', 'notes/<%= @note.id %>')
 $('form#daily_notes input[name="authenticity_token"]').after('<input name="_method" type="hidden" value="put">')
+$('form#daily_notes textarea').on('blur', function(){
+  dailyNotesFormBehavior()
+}) 
 
