@@ -1,7 +1,7 @@
 class LandingController < ApplicationController
   
   def index
-    if ! current_user.nil? && !current_user.latest_daily_note.nil? && current_user.latest_daily_note.created_at.to_date == Time.now.utc.to_date
+    if ! current_user.nil? && !current_user.latest_daily_note.nil? && current_user.latest_daily_note.created_at.in_time_zone(current_user.time_zone).to_date == Time.now.in_time_zone(current_user.time_zone).to_date
       @note = current_user.latest_daily_note
     elsif ! current_user.nil?
       note_type = NoteType.where(name: 'daily_notes')[0]
