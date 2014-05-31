@@ -33,12 +33,12 @@ group :test do
   gem 'database_cleaner', '1.0.1'
   gem 'mongoid-rspec', '1.8.2'
   gem 'email_spec', '1.4.0'
-  gem 'capybara', '2.0.3'
-  gem "selenium-webdriver", "2.35.1"
+  gem 'capybara'
+  gem "selenium-webdriver"
   gem 'launchy', '2.3.0'
   gem 'simplecov', '0.7.1', require: false
   gem 'spork', '0.9.2'
-  gem 'rubyzip', '< 1.0.0'
+  gem 'rubyzip'
 end
 
 group :development do
@@ -50,12 +50,13 @@ group :development do
 end
 
 group :development, :test do
+  gem 'pry'
   #gem 'debugger'
   gem 'jasmine-rails', '0.4.5'
   gem 'byebug', '1.3.0'
   gem 'awesome_print', '1.1.0'
   gem 'rspec-mocks', '2.13.1'
-  gem 'rspec-rails', '2.13.0'
+  gem 'rspec-rails'
   gem 'factory_girl_rails', '4.2.1'
   gem 'faker', '1.1.2'
   gem 'fabrication', '2.7.1'
